@@ -1,4 +1,4 @@
-import logo from "@/assets/logo-friuli-on.png";
+import logo from "@/assets/logo-friuli-on-text.png";
 
 export function Footer() {
   return (
