@@ -8,7 +8,7 @@ export function Footer() {
           <img
             src={logo}
             alt="Friuli On"
-            className="h-16 w-auto brightness-0 invert md:h-20"
+            className="h-12 w-auto md:h-16"
             width={907}
             height={349}
           />
