@@ -55,7 +55,7 @@ export function Hero() {
               <div className="rounded-xl border-2 border-ink bg-cream p-3">
                 <p className="font-heading text-xs uppercase">In onda ora</p>
                 <p className="font-body text-xs text-ink/70">
-                  Bar centrale · Codroipo
+                  Informazione e Pubblicità
                 </p>
               </div>
             </div>
