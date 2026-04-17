@@ -12,9 +12,9 @@ export function Navbar() {
           <img
             src={logo}
             alt="Friuli On"
-            className="h-14 w-auto md:h-20"
-            width={480}
-            height={160}
+            className="h-12 w-auto md:h-16"
+            width={907}
+            height={349}
           />
         </a>
 

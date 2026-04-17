@@ -8,9 +8,9 @@ export function Footer() {
           <img
             src={logo}
             alt="Friuli On"
-            className="h-20 w-auto brightness-0 invert md:h-24"
-            width={480}
-            height={160}
+            className="h-16 w-auto brightness-0 invert md:h-20"
+            width={907}
+            height={349}
           />
           <div className="hidden text-[10px] uppercase tracking-[0.3em] text-cream/60 sm:block">
             Indoor TV · Friuli<br />Venezia Giulia
