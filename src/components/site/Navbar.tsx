@@ -1,3 +1,5 @@
+import logo from "@/assets/logo-friuli-on.png";
+
 export function Navbar() {
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -5,17 +7,15 @@ export function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 border-b-2 border-ink bg-cream/95 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-8">
-        <a href="#top" className="flex items-center gap-2">
-          <div
-            className="flex size-11 items-center justify-center rounded-full border-2 border-ink bg-friuli-yellow"
-            style={{ boxShadow: "var(--shadow-brutal)" }}
-          >
-            <span className="font-heading text-2xl leading-none">!</span>
-          </div>
-          <span className="font-heading text-lg uppercase tracking-tight md:text-xl">
-            Friuli On
-          </span>
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 md:px-8 md:py-4">
+        <a href="#top" className="flex items-center" aria-label="Friuli On — home">
+          <img
+            src={logo}
+            alt="Friuli On"
+            className="h-10 w-auto md:h-12"
+            width={240}
+            height={80}
+          />
         </a>
 
         <div className="hidden items-center gap-8 text-sm font-semibold uppercase tracking-widest md:flex">
