@@ -1,6 +1,7 @@
 @import "tailwindcss" source(none);
-@source "../src";
 @import "tw-animate-css";
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&family=Outfit:wght@300;400;500;600;700&display=swap");
+@source "../src";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -19,6 +20,18 @@
  */
 
 @theme inline {
+  --font-heading: "Archivo Black", sans-serif;
+  --font-body: "Outfit", sans-serif;
+  --color-friuli-yellow: var(--friuli-yellow);
+  --color-friuli-blue: var(--friuli-blue);
+  --color-cream: var(--cream);
+  --color-ink: var(--ink);
+  --shadow-brutal: 4px 4px 0 0 var(--ink);
+  --shadow-brutal-md: 6px 6px 0 0 var(--ink);
+  --shadow-brutal-lg: 8px 8px 0 0 var(--ink);
+  --shadow-brutal-xl: 12px 12px 0 0 var(--ink);
+  --shadow-brutal-2xl: 16px 16px 0 0 var(--friuli-blue);
+  --shadow-yellow-lg: 12px 12px 0 0 var(--friuli-yellow);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -62,9 +75,13 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
+  --radius: 0.75rem;
+  --friuli-yellow: oklch(0.89 0.18 95);
+  --friuli-blue: oklch(0.42 0.18 258);
+  --cream: oklch(0.985 0.012 95);
+  --ink: oklch(0.18 0.01 60);
+  --background: var(--cream);
+  --foreground: var(--ink);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
@@ -137,8 +154,18 @@
     border-color: var(--color-border);
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-body);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
   }
 }
