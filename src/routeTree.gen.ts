@@ -9,18 +9,60 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ServiziRouteImport } from './routes/servizi'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as CookiesRouteImport } from './routes/cookies'
+import { Route as ContattiRouteImport } from './routes/contatti'
+import { Route as CircuitoRouteImport } from './routes/circuito'
+import { Route as ChiSiamoRouteImport } from './routes/chi-siamo'
 import { Route as IndexRouteImport } from './routes/index'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServiziRoute = ServiziRouteImport.update({
+  id: '/servizi',
+  path: '/servizi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortfolioRoute = PortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CookiesRoute = CookiesRouteImport.update({
   id: '/cookies',
   path: '/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContattiRoute = ContattiRouteImport.update({
+  id: '/contatti',
+  path: '/contatti',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CircuitoRoute = CircuitoRouteImport.update({
+  id: '/circuito',
+  path: '/circuito',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChiSiamoRoute = ChiSiamoRouteImport.update({
+  id: '/chi-siamo',
+  path: '/chi-siamo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -31,36 +73,116 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/chi-siamo': typeof ChiSiamoRoute
+  '/circuito': typeof CircuitoRoute
+  '/contatti': typeof ContattiRoute
   '/cookies': typeof CookiesRoute
+  '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/servizi': typeof ServiziRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/chi-siamo': typeof ChiSiamoRoute
+  '/circuito': typeof CircuitoRoute
+  '/contatti': typeof ContattiRoute
   '/cookies': typeof CookiesRoute
+  '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/servizi': typeof ServiziRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/chi-siamo': typeof ChiSiamoRoute
+  '/circuito': typeof CircuitoRoute
+  '/contatti': typeof ContattiRoute
   '/cookies': typeof CookiesRoute
+  '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/servizi': typeof ServiziRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cookies' | '/privacy'
+  fullPaths:
+    | '/'
+    | '/chi-siamo'
+    | '/circuito'
+    | '/contatti'
+    | '/cookies'
+    | '/portfolio'
+    | '/privacy'
+    | '/robots.txt'
+    | '/servizi'
+    | '/sitemap.xml'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cookies' | '/privacy'
-  id: '__root__' | '/' | '/cookies' | '/privacy'
+  to:
+    | '/'
+    | '/chi-siamo'
+    | '/circuito'
+    | '/contatti'
+    | '/cookies'
+    | '/portfolio'
+    | '/privacy'
+    | '/robots.txt'
+    | '/servizi'
+    | '/sitemap.xml'
+  id:
+    | '__root__'
+    | '/'
+    | '/chi-siamo'
+    | '/circuito'
+    | '/contatti'
+    | '/cookies'
+    | '/portfolio'
+    | '/privacy'
+    | '/robots.txt'
+    | '/servizi'
+    | '/sitemap.xml'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ChiSiamoRoute: typeof ChiSiamoRoute
+  CircuitoRoute: typeof CircuitoRoute
+  ContattiRoute: typeof ContattiRoute
   CookiesRoute: typeof CookiesRoute
+  PortfolioRoute: typeof PortfolioRoute
   PrivacyRoute: typeof PrivacyRoute
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
+  ServiziRoute: typeof ServiziRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/servizi': {
+      id: '/servizi'
+      path: '/servizi'
+      fullPath: '/servizi'
+      preLoaderRoute: typeof ServiziRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/privacy': {
       id: '/privacy'
       path: '/privacy'
@@ -68,11 +190,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/portfolio': {
+      id: '/portfolio'
+      path: '/portfolio'
+      fullPath: '/portfolio'
+      preLoaderRoute: typeof PortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cookies': {
       id: '/cookies'
       path: '/cookies'
       fullPath: '/cookies'
       preLoaderRoute: typeof CookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contatti': {
+      id: '/contatti'
+      path: '/contatti'
+      fullPath: '/contatti'
+      preLoaderRoute: typeof ContattiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/circuito': {
+      id: '/circuito'
+      path: '/circuito'
+      fullPath: '/circuito'
+      preLoaderRoute: typeof CircuitoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chi-siamo': {
+      id: '/chi-siamo'
+      path: '/chi-siamo'
+      fullPath: '/chi-siamo'
+      preLoaderRoute: typeof ChiSiamoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -87,9 +237,25 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ChiSiamoRoute: ChiSiamoRoute,
+  CircuitoRoute: CircuitoRoute,
+  ContattiRoute: ContattiRoute,
   CookiesRoute: CookiesRoute,
+  PortfolioRoute: PortfolioRoute,
   PrivacyRoute: PrivacyRoute,
+  RobotsDottxtRoute: RobotsDottxtRoute,
+  ServiziRoute: ServiziRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}

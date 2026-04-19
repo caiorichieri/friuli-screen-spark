@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import heroBar from "@/assets/hero-bar.jpg";
 
 export function Hero() {
@@ -20,13 +21,13 @@ export function Hero() {
             Giulia, per dare visibilità alle attività del territorio.
           </p>
           <div className="flex flex-wrap items-center gap-6">
-            <a
-              href="#circuito"
+            <Link
+              to="/circuito"
               className="inline-flex items-center justify-center border-2 border-ink bg-friuli-yellow px-8 py-4 font-heading text-base uppercase tracking-tight transition-all duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-0.5 active:translate-y-0.5 md:text-lg"
               style={{ boxShadow: "var(--shadow-brutal-lg)" }}
             >
               Scopri il Circuito
-            </a>
+            </Link>
             <a
               href="https://wa.me/393518230667?text=Ciao!%20Vorrei%20informazioni%20su%20Friuli%20On."
               target="_blank"

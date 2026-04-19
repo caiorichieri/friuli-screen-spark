@@ -21,8 +21,23 @@ export function Footer() {
             </p>
           </div>
 
+          {/* Naviga */}
+          <div className="md:col-span-2">
+            <h3 className="font-heading text-sm uppercase tracking-widest text-friuli-yellow">
+              Naviga
+            </h3>
+            <ul className="mt-4 space-y-2 text-sm">
+              <li><Link to="/" className="text-cream/80 hover:text-friuli-yellow">Home</Link></li>
+              <li><Link to="/circuito" className="text-cream/80 hover:text-friuli-yellow">Il Circuito</Link></li>
+              <li><Link to="/servizi" className="text-cream/80 hover:text-friuli-yellow">Servizi</Link></li>
+              <li><Link to="/chi-siamo" className="text-cream/80 hover:text-friuli-yellow">Chi Siamo</Link></li>
+              <li><Link to="/portfolio" className="text-cream/80 hover:text-friuli-yellow">Portfolio</Link></li>
+              <li><Link to="/contatti" className="text-cream/80 hover:text-friuli-yellow">Contatti</Link></li>
+            </ul>
+          </div>
+
           {/* Contatti */}
-          <div className="md:col-span-4">
+          <div className="md:col-span-3">
             <h3 className="font-heading text-sm uppercase tracking-widest text-friuli-yellow">
               Contatti
             </h3>
@@ -57,7 +72,7 @@ export function Footer() {
           </div>
 
           {/* Sede + Legale */}
-          <div className="md:col-span-4">
+          <div className="md:col-span-3">
             <h3 className="font-heading text-sm uppercase tracking-widest text-friuli-yellow">
               Sede
             </h3>
@@ -79,6 +94,12 @@ export function Footer() {
             <Link to="/cookies" className="transition-colors hover:text-friuli-yellow">
               Cookie Policy
             </Link>
+            <a
+              href="/sitemap.xml"
+              className="transition-colors hover:text-friuli-yellow"
+            >
+              Sitemap
+            </a>
             <button
               onClick={() => {
                 window.dispatchEvent(new CustomEvent("open-cookie-preferences"));
