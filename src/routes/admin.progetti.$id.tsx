@@ -28,6 +28,7 @@ import {
   usePayments,
   useTogglePaymentPaid,
   calcProjectTotal,
+  usePortfolioCategoriesAdmin,
   STATUS_LABEL,
   PAYMENT_LABEL,
   type ProjectStatus,
@@ -35,6 +36,7 @@ import {
   type ProjectItem,
   type PaymentSchedule,
 } from "@/hooks/useAdminData";
+import { Switch } from "@/components/ui/switch";
 import {
   ArrowLeft,
   Plus,
@@ -44,6 +46,11 @@ import {
   Euro,
   CheckCircle2,
   Clock,
+  Upload,
+  Image as ImageIcon,
+  X,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 
 export const Route = createFileRoute("/admin/progetti/$id")({
