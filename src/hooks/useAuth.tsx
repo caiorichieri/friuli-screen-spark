@@ -21,41 +21,55 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = React.useState(true);
 
   const checkAdminRole = React.useCallback(async (userId: string) => {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("user_roles")
       .select("role")
       .eq("user_id", userId)
       .eq("role", "admin")
       .maybeSingle();
-    setIsAdmin(!!data);
+
+    if (error) {
+      return false;
+    }
+
+    return !!data;
   }, []);
 
   React.useEffect(() => {
-    // Set up listener FIRST
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, newSession) => {
-      setSession(newSession);
-      setUser(newSession?.user ?? null);
-      if (newSession?.user) {
-        // Defer DB call to avoid deadlock inside listener
-        setTimeout(() => {
-          void checkAdminRole(newSession.user.id);
-        }, 0);
-      } else {
+    let isMounted = true;
+
+    const syncSession = async (nextSession: Session | null) => {
+      if (!isMounted) return;
+
+      setLoading(true);
+      setSession(nextSession);
+      setUser(nextSession?.user ?? null);
+
+      if (!nextSession?.user) {
         setIsAdmin(false);
+        setLoading(false);
+        return;
       }
-    });
 
-    // THEN check existing session
-    supabase.auth.getSession().then(({ data: { session: initialSession } }) => {
-      setSession(initialSession);
-      setUser(initialSession?.user ?? null);
-      if (initialSession?.user) {
-        void checkAdminRole(initialSession.user.id);
-      }
+      const admin = await checkAdminRole(nextSession.user.id);
+
+      if (!isMounted) return;
+      setIsAdmin(admin);
       setLoading(false);
+    };
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, newSession) => {
+      void syncSession(newSession);
     });
 
-    return () => subscription.unsubscribe();
+    void supabase.auth.getSession().then(({ data: { session: initialSession } }) => {
+      void syncSession(initialSession);
+    });
+
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
   }, [checkAdminRole]);
 
   const signIn = React.useCallback(async (email: string, password: string) => {
