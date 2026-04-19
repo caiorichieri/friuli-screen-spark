@@ -2,7 +2,7 @@ import { createFileRoute, Link, Outlet, useNavigate, useLocation } from "@tansta
 import { useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { LayoutDashboard, Users, Briefcase, LogOut, Home } from "lucide-react";
+import { LayoutDashboard, Users, Briefcase, FolderKanban, LogOut, Home } from "lucide-react";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -59,13 +59,14 @@ function AdminLayout() {
   }
 
   const navItems: Array<{
-    to: "/admin" | "/admin/clienti" | "/admin/servizi";
+    to: "/admin" | "/admin/clienti" | "/admin/progetti" | "/admin/servizi";
     label: string;
     icon: typeof LayoutDashboard;
     exact?: boolean;
   }> = [
     { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
     { to: "/admin/clienti", label: "Clienti", icon: Users },
+    { to: "/admin/progetti", label: "Progetti", icon: FolderKanban },
     { to: "/admin/servizi", label: "Servizi", icon: Briefcase },
   ];
 
