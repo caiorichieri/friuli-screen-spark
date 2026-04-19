@@ -9,18 +9,48 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ServiziRouteImport } from './routes/servizi'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as CookiesRouteImport } from './routes/cookies'
+import { Route as ContattiRouteImport } from './routes/contatti'
+import { Route as CircuitoRouteImport } from './routes/circuito'
+import { Route as ChiSiamoRouteImport } from './routes/chi-siamo'
 import { Route as IndexRouteImport } from './routes/index'
 
+const ServiziRoute = ServiziRouteImport.update({
+  id: '/servizi',
+  path: '/servizi',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortfolioRoute = PortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CookiesRoute = CookiesRouteImport.update({
   id: '/cookies',
   path: '/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContattiRoute = ContattiRouteImport.update({
+  id: '/contatti',
+  path: '/contatti',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CircuitoRoute = CircuitoRouteImport.update({
+  id: '/circuito',
+  path: '/circuito',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChiSiamoRoute = ChiSiamoRouteImport.update({
+  id: '/chi-siamo',
+  path: '/chi-siamo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -31,36 +61,88 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/chi-siamo': typeof ChiSiamoRoute
+  '/circuito': typeof CircuitoRoute
+  '/contatti': typeof ContattiRoute
   '/cookies': typeof CookiesRoute
+  '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
+  '/servizi': typeof ServiziRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/chi-siamo': typeof ChiSiamoRoute
+  '/circuito': typeof CircuitoRoute
+  '/contatti': typeof ContattiRoute
   '/cookies': typeof CookiesRoute
+  '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
+  '/servizi': typeof ServiziRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/chi-siamo': typeof ChiSiamoRoute
+  '/circuito': typeof CircuitoRoute
+  '/contatti': typeof ContattiRoute
   '/cookies': typeof CookiesRoute
+  '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
+  '/servizi': typeof ServiziRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cookies' | '/privacy'
+  fullPaths:
+    | '/'
+    | '/chi-siamo'
+    | '/circuito'
+    | '/contatti'
+    | '/cookies'
+    | '/portfolio'
+    | '/privacy'
+    | '/servizi'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cookies' | '/privacy'
-  id: '__root__' | '/' | '/cookies' | '/privacy'
+  to:
+    | '/'
+    | '/chi-siamo'
+    | '/circuito'
+    | '/contatti'
+    | '/cookies'
+    | '/portfolio'
+    | '/privacy'
+    | '/servizi'
+  id:
+    | '__root__'
+    | '/'
+    | '/chi-siamo'
+    | '/circuito'
+    | '/contatti'
+    | '/cookies'
+    | '/portfolio'
+    | '/privacy'
+    | '/servizi'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ChiSiamoRoute: typeof ChiSiamoRoute
+  CircuitoRoute: typeof CircuitoRoute
+  ContattiRoute: typeof ContattiRoute
   CookiesRoute: typeof CookiesRoute
+  PortfolioRoute: typeof PortfolioRoute
   PrivacyRoute: typeof PrivacyRoute
+  ServiziRoute: typeof ServiziRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/servizi': {
+      id: '/servizi'
+      path: '/servizi'
+      fullPath: '/servizi'
+      preLoaderRoute: typeof ServiziRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/privacy': {
       id: '/privacy'
       path: '/privacy'
@@ -68,11 +150,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/portfolio': {
+      id: '/portfolio'
+      path: '/portfolio'
+      fullPath: '/portfolio'
+      preLoaderRoute: typeof PortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cookies': {
       id: '/cookies'
       path: '/cookies'
       fullPath: '/cookies'
       preLoaderRoute: typeof CookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contatti': {
+      id: '/contatti'
+      path: '/contatti'
+      fullPath: '/contatti'
+      preLoaderRoute: typeof ContattiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/circuito': {
+      id: '/circuito'
+      path: '/circuito'
+      fullPath: '/circuito'
+      preLoaderRoute: typeof CircuitoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chi-siamo': {
+      id: '/chi-siamo'
+      path: '/chi-siamo'
+      fullPath: '/chi-siamo'
+      preLoaderRoute: typeof ChiSiamoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -87,8 +197,13 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ChiSiamoRoute: ChiSiamoRoute,
+  CircuitoRoute: CircuitoRoute,
+  ContattiRoute: ContattiRoute,
   CookiesRoute: CookiesRoute,
+  PortfolioRoute: PortfolioRoute,
   PrivacyRoute: PrivacyRoute,
+  ServiziRoute: ServiziRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

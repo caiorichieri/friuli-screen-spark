@@ -1,18 +1,14 @@
-import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import logo from "@/assets/logo-friuli-on.png";
 
+const NAV_ITEMS = [
+  { to: "/circuito", label: "Il Circuito" },
+  { to: "/servizi", label: "Servizi" },
+  { to: "/chi-siamo", label: "Chi Siamo" },
+  { to: "/portfolio", label: "Portfolio" },
+] as const;
+
 export function Navbar() {
-  const navigate = useNavigate();
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
-
-  const goToSection = (id: string) => {
-    if (pathname !== "/") {
-      navigate({ to: "/", hash: id });
-    } else {
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
     <nav className="sticky top-0 z-50 border-b-2 border-ink bg-cream/95 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 md:px-8 md:py-4">
@@ -27,34 +23,31 @@ export function Navbar() {
         </Link>
 
         <div className="hidden items-center gap-8 text-sm font-semibold uppercase tracking-widest md:flex">
-          <button onClick={() => goToSection("circuito")} className="hover:text-friuli-blue">
-            Il Circuito
-          </button>
-          <button onClick={() => goToSection("chi-siamo")} className="hover:text-friuli-blue">
-            Chi Siamo
-          </button>
-          <button onClick={() => goToSection("portfolio")} className="hover:text-friuli-blue">
-            Portfolio
-          </button>
-          <a
-            href="https://wa.me/393518230667?text=Ciao!%20Vorrei%20informazioni%20su%20Friuli%20On."
-            target="_blank"
-            rel="noreferrer"
+          {NAV_ITEMS.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              className="hover:text-friuli-blue"
+              activeProps={{ className: "text-friuli-blue" }}
+            >
+              {item.label}
+            </Link>
+          ))}
+          <Link
+            to="/contatti"
             className="rounded-full border-2 border-ink bg-friuli-blue px-5 py-2.5 text-cream uppercase transition-all hover:-translate-y-0.5"
             style={{ boxShadow: "var(--shadow-brutal)" }}
           >
             Contattaci
-          </a>
+          </Link>
         </div>
 
-        <a
-          href="https://wa.me/393518230667?text=Ciao!%20Vorrei%20informazioni%20su%20Friuli%20On."
-          target="_blank"
-          rel="noreferrer"
+        <Link
+          to="/contatti"
           className="rounded-full border-2 border-ink bg-friuli-blue px-4 py-2 text-xs font-bold uppercase text-cream md:hidden"
         >
           Contatti
-        </a>
+        </Link>
       </div>
     </nav>
   );

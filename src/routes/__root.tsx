@@ -24,21 +24,43 @@ function NotFoundComponent() {
   );
 }
 
+const LOCAL_BUSINESS_JSONLD = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "Friuli On",
+  description:
+    "Pubblicità locale, monitor TV indoor e comunicazione integrata in Friuli Venezia Giulia.",
+  url: "https://friulion.it",
+  telephone: "+39 351 8230667",
+  email: "info@friulion.it",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Via Circonvallazione Sud, 80",
+    addressLocality: "Codroipo",
+    postalCode: "33033",
+    addressRegion: "UD",
+    addressCountry: "IT",
+  },
+  vatID: "IT03157410303",
+  areaServed: "Friuli Venezia Giulia",
+});
+
 export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Friuli On" },
-      { name: "description", content: "Friuli On" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Friuli On" },
-      { property: "og:description", content: "Friuli On" },
+      { title: "Friuli On — Pubblicità locale e monitor indoor in FVG" },
+      {
+        name: "description",
+        content:
+          "Friuli On: rete di monitor TV indoor nei luoghi più frequentati del Friuli Venezia Giulia. Pubblicità locale accessibile, efficace e sostenibile.",
+      },
+      { name: "author", content: "Friuli On" },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Friuli On" },
-      { name: "twitter:description", content: "Friuli On" },
+      { property: "og:locale", content: "it_IT" },
+      { property: "og:site_name", content: "Friuli On" },
+      { name: "twitter:card", content: "summary_large_image" },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/iME4qutiMvQWTfEWBPjGKRFf98H3/social-images/social-1776447337802-LOGO_FRIULI_ON_MARCHIO.webp" },
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/iME4qutiMvQWTfEWBPjGKRFf98H3/social-images/social-1776447337802-LOGO_FRIULI_ON_MARCHIO.webp" },
     ],
@@ -52,6 +74,12 @@ export const Route = createRootRoute({
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Archivo+Black&family=Outfit:wght@300;400;500;600;700&display=swap",
+      },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: LOCAL_BUSINESS_JSONLD,
       },
     ],
   }),
