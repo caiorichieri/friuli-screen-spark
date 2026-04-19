@@ -17,7 +17,38 @@ export type Project = {
   end_date: string | null;
   created_at: string;
   updated_at: string;
+  is_public: boolean;
+  slug: string | null;
+  cover_image_url: string | null;
+  gallery: string[];
+  year: number | null;
+  tags: string[];
+  external_url: string | null;
+  portfolio_category_id: string | null;
+  public_sort_order: number;
+  public_summary: string | null;
 };
+
+export type PortfolioCategory = {
+  id: string;
+  name: string;
+  slug: string;
+  sort_order: number;
+};
+
+export function usePortfolioCategoriesAdmin() {
+  return useQuery({
+    queryKey: ["admin", "portfolio-categories"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("portfolio_categories")
+        .select("*")
+        .order("sort_order", { ascending: true });
+      if (error) throw error;
+      return (data ?? []) as PortfolioCategory[];
+    },
+  });
+}
 
 export type ProjectWithClient = Project & {
   clients: { id: string; name: string } | null;
