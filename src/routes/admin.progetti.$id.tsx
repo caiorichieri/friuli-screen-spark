@@ -533,8 +533,35 @@ function PaymentDialog({
   state: { open: boolean; editing: PaymentSchedule | null };
   onClose: () => void;
 }) {
+  return (
+    <Dialog open={state.open} onOpenChange={(o) => !o && onClose()}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{state.editing ? "Modifica scadenza" : "Nuova scadenza"}</DialogTitle>
+        </DialogHeader>
+        {state.open && (
+          <PaymentForm
+            key={state.editing?.id ?? "new"}
+            projectId={projectId}
+            editing={state.editing}
+            onClose={onClose}
+          />
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function PaymentForm({
+  projectId,
+  editing,
+  onClose,
+}: {
+  projectId: string;
+  editing: PaymentSchedule | null;
+  onClose: () => void;
+}) {
   const qc = useQueryClient();
-  const editing = state.editing;
   const [amount, setAmount] = useState(String(editing?.amount ?? ""));
   const [dueDate, setDueDate] = useState(editing?.due_date ?? new Date().toISOString().slice(0, 10));
   const [status, setStatus] = useState<PaymentStatus>(editing?.status ?? "da_pagare");
@@ -567,67 +594,48 @@ function PaymentDialog({
   });
 
   return (
-    <Dialog open={state.open} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{editing ? "Modifica scadenza" : "Nuova scadenza"}</DialogTitle>
-        </DialogHeader>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (!amount || Number(amount) <= 0) {
-              toast.error("Importo non valido");
-              return;
-            }
-            save.mutate();
-          }}
-          className="space-y-3"
-          key={editing?.id ?? "new"}
-        >
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-2">
-              <Label>Importo (€)</Label>
-              <Input
-                type="number"
-                step="0.01"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label>Scadenza</Label>
-              <Input
-                type="date"
-                value={dueDate}
-                onChange={(e) => setDueDate(e.target.value)}
-                required
-              />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label>Stato</Label>
-            <Select value={status} onValueChange={(v) => setStatus(v as PaymentStatus)}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>
-                {(Object.keys(PAYMENT_LABEL) as PaymentStatus[]).map((s) => (
-                  <SelectItem key={s} value={s}>{PAYMENT_LABEL[s]}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-2">
-            <Label>Note</Label>
-            <Textarea rows={2} value={notes} onChange={(e) => setNotes(e.target.value)} />
-          </div>
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={onClose}>Annulla</Button>
-            <Button type="submit" disabled={save.isPending} className="bg-friuli-blue text-cream hover:bg-friuli-blue/90">
-              Salva
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (!amount || Number(amount) <= 0) {
+          toast.error("Importo non valido");
+          return;
+        }
+        save.mutate();
+      }}
+      className="space-y-3"
+    >
+      <div className="grid grid-cols-2 gap-3">
+        <div className="space-y-2">
+          <Label>Importo (€)</Label>
+          <Input type="number" step="0.01" value={amount} onChange={(e) => setAmount(e.target.value)} required />
+        </div>
+        <div className="space-y-2">
+          <Label>Scadenza</Label>
+          <Input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} required />
+        </div>
+      </div>
+      <div className="space-y-2">
+        <Label>Stato</Label>
+        <Select value={status} onValueChange={(v) => setStatus(v as PaymentStatus)}>
+          <SelectTrigger><SelectValue /></SelectTrigger>
+          <SelectContent>
+            {(Object.keys(PAYMENT_LABEL) as PaymentStatus[]).map((s) => (
+              <SelectItem key={s} value={s}>{PAYMENT_LABEL[s]}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="space-y-2">
+        <Label>Note</Label>
+        <Textarea rows={2} value={notes} onChange={(e) => setNotes(e.target.value)} />
+      </div>
+      <DialogFooter>
+        <Button type="button" variant="outline" onClick={onClose}>Annulla</Button>
+        <Button type="submit" disabled={save.isPending} className="bg-friuli-blue text-cream hover:bg-friuli-blue/90">
+          Salva
+        </Button>
+      </DialogFooter>
+    </form>
   );
 }
