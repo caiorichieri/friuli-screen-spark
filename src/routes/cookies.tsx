@@ -186,6 +186,7 @@ function CookiesPage() {
         </div>
       </main>
       <Footer />
+      <CookieBanner />
     </div>
   );
 }

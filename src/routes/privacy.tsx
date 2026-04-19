@@ -173,6 +173,7 @@ function PrivacyPage() {
         </div>
       </main>
       <Footer />
+      <CookieBanner />
     </div>
   );
 }
