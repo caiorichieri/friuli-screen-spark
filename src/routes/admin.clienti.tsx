@@ -46,6 +46,8 @@ type Client = {
   logo_url: string | null;
   website: string | null;
   description: string | null;
+  email: string | null;
+  phone: string | null;
   sort_order: number;
   is_public: boolean;
 };
@@ -277,6 +279,8 @@ function ClientForm({
   const [name, setName] = useState(client?.name ?? "");
   const [website, setWebsite] = useState(client?.website ?? "");
   const [description, setDescription] = useState(client?.description ?? "");
+  const [email, setEmail] = useState(client?.email ?? "");
+  const [phone, setPhone] = useState(client?.phone ?? "");
   const [logoUrl, setLogoUrl] = useState<string | null>(client?.logo_url ?? null);
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [isPublic, setIsPublic] = useState(client?.is_public ?? true);
@@ -310,6 +314,8 @@ function ClientForm({
         slug: slugify(name),
         website: website.trim() || null,
         description: description.trim() || null,
+        email: email.trim() || null,
+        phone: phone.trim() || null,
         logo_url: finalLogoUrl,
         is_public: isPublic,
         sort_order: sortOrder,
@@ -374,6 +380,29 @@ function ClientForm({
           value={website}
           onChange={(e) => setWebsite(e.target.value)}
         />
+      </div>
+
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div className="space-y-2">
+          <Label htmlFor="email">Email contatto</Label>
+          <Input
+            id="email"
+            type="email"
+            placeholder="cliente@esempio.it"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="phone">Telefono</Label>
+          <Input
+            id="phone"
+            type="tel"
+            placeholder="+39 ..."
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
+        </div>
       </div>
 
       <div className="space-y-2">

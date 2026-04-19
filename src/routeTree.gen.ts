@@ -22,7 +22,9 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminServiziRouteImport } from './routes/admin.servizi'
+import { Route as AdminProgettiRouteImport } from './routes/admin.progetti'
 import { Route as AdminClientiRouteImport } from './routes/admin.clienti'
+import { Route as AdminProgettiIdRouteImport } from './routes/admin.progetti.$id'
 
 const ServiziRoute = ServiziRouteImport.update({
   id: '/servizi',
@@ -89,10 +91,20 @@ const AdminServiziRoute = AdminServiziRouteImport.update({
   path: '/servizi',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminProgettiRoute = AdminProgettiRouteImport.update({
+  id: '/progetti',
+  path: '/progetti',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminClientiRoute = AdminClientiRouteImport.update({
   id: '/clienti',
   path: '/clienti',
   getParentRoute: () => AdminRoute,
+} as any)
+const AdminProgettiIdRoute = AdminProgettiIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AdminProgettiRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -108,8 +120,10 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/servizi': typeof ServiziRoute
   '/admin/clienti': typeof AdminClientiRoute
+  '/admin/progetti': typeof AdminProgettiRouteWithChildren
   '/admin/servizi': typeof AdminServiziRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/progetti/$id': typeof AdminProgettiIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -123,8 +137,10 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/servizi': typeof ServiziRoute
   '/admin/clienti': typeof AdminClientiRoute
+  '/admin/progetti': typeof AdminProgettiRouteWithChildren
   '/admin/servizi': typeof AdminServiziRoute
   '/admin': typeof AdminIndexRoute
+  '/admin/progetti/$id': typeof AdminProgettiIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -140,8 +156,10 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/servizi': typeof ServiziRoute
   '/admin/clienti': typeof AdminClientiRoute
+  '/admin/progetti': typeof AdminProgettiRouteWithChildren
   '/admin/servizi': typeof AdminServiziRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/progetti/$id': typeof AdminProgettiIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -158,8 +176,10 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/servizi'
     | '/admin/clienti'
+    | '/admin/progetti'
     | '/admin/servizi'
     | '/admin/'
+    | '/admin/progetti/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -173,8 +193,10 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/servizi'
     | '/admin/clienti'
+    | '/admin/progetti'
     | '/admin/servizi'
     | '/admin'
+    | '/admin/progetti/$id'
   id:
     | '__root__'
     | '/'
@@ -189,8 +211,10 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/servizi'
     | '/admin/clienti'
+    | '/admin/progetti'
     | '/admin/servizi'
     | '/admin/'
+    | '/admin/progetti/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -300,6 +324,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminServiziRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/progetti': {
+      id: '/admin/progetti'
+      path: '/progetti'
+      fullPath: '/admin/progetti'
+      preLoaderRoute: typeof AdminProgettiRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/clienti': {
       id: '/admin/clienti'
       path: '/clienti'
@@ -307,17 +338,38 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminClientiRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/progetti/$id': {
+      id: '/admin/progetti/$id'
+      path: '/$id'
+      fullPath: '/admin/progetti/$id'
+      preLoaderRoute: typeof AdminProgettiIdRouteImport
+      parentRoute: typeof AdminProgettiRoute
+    }
   }
 }
 
+interface AdminProgettiRouteChildren {
+  AdminProgettiIdRoute: typeof AdminProgettiIdRoute
+}
+
+const AdminProgettiRouteChildren: AdminProgettiRouteChildren = {
+  AdminProgettiIdRoute: AdminProgettiIdRoute,
+}
+
+const AdminProgettiRouteWithChildren = AdminProgettiRoute._addFileChildren(
+  AdminProgettiRouteChildren,
+)
+
 interface AdminRouteChildren {
   AdminClientiRoute: typeof AdminClientiRoute
+  AdminProgettiRoute: typeof AdminProgettiRouteWithChildren
   AdminServiziRoute: typeof AdminServiziRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminClientiRoute: AdminClientiRoute,
+  AdminProgettiRoute: AdminProgettiRouteWithChildren,
   AdminServiziRoute: AdminServiziRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
