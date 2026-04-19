@@ -136,7 +136,9 @@ function AdminProjectsPage() {
                 <div className="flex items-center gap-2">
                   <Button asChild size="sm" variant="outline">
                     <Link to="/admin/progetti/$id" params={{ id: p.id }}>
-                      Apri <ArrowRight className="h-3 w-3" />
+                      <span className="inline-flex items-center gap-1">
+                        Apri <ArrowRight className="h-3 w-3" />
+                      </span>
                     </Link>
                   </Button>
                   <AlertDialog>
