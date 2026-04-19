@@ -428,18 +428,38 @@ function ItemDialog({
   state: { open: boolean; editing: ProjectItem | null };
   onClose: () => void;
 }) {
+  return (
+    <Dialog open={state.open} onOpenChange={(o) => !o && onClose()}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{state.editing ? "Modifica voce" : "Nuova voce"}</DialogTitle>
+        </DialogHeader>
+        {state.open && (
+          <ItemForm
+            key={state.editing?.id ?? "new"}
+            projectId={projectId}
+            editing={state.editing}
+            onClose={onClose}
+          />
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function ItemForm({
+  projectId,
+  editing,
+  onClose,
+}: {
+  projectId: string;
+  editing: ProjectItem | null;
+  onClose: () => void;
+}) {
   const qc = useQueryClient();
-  const editing = state.editing;
   const [description, setDescription] = useState(editing?.description ?? "");
   const [quantity, setQuantity] = useState(String(editing?.quantity ?? 1));
   const [unitPrice, setUnitPrice] = useState(String(editing?.unit_price ?? 0));
-
-  // Reset on open change
-  useState(() => {
-    setDescription(editing?.description ?? "");
-    setQuantity(String(editing?.quantity ?? 1));
-    setUnitPrice(String(editing?.unit_price ?? 0));
-  });
 
   const save = useMutation({
     mutationFn: async () => {
@@ -466,54 +486,41 @@ function ItemDialog({
   });
 
   return (
-    <Dialog open={state.open} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{editing ? "Modifica voce" : "Nuova voce"}</DialogTitle>
-        </DialogHeader>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (!description.trim()) {
-              toast.error("Descrizione richiesta");
-              return;
-            }
-            save.mutate();
-          }}
-          className="space-y-3"
-          key={editing?.id ?? "new"}
-        >
-          <div className="space-y-2">
-            <Label>Descrizione</Label>
-            <Input
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              defaultValue={editing?.description ?? ""}
-              required
-            />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-2">
-              <Label>Quantità</Label>
-              <Input type="number" step="0.01" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
-            </div>
-            <div className="space-y-2">
-              <Label>Prezzo unitario (€)</Label>
-              <Input type="number" step="0.01" value={unitPrice} onChange={(e) => setUnitPrice(e.target.value)} />
-            </div>
-          </div>
-          <p className="text-sm text-ink/60">
-            Totale: <span className="font-medium text-ink">€ {(Number(quantity) * Number(unitPrice)).toFixed(2)}</span>
-          </p>
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={onClose}>Annulla</Button>
-            <Button type="submit" disabled={save.isPending} className="bg-friuli-blue text-cream hover:bg-friuli-blue/90">
-              Salva
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (!description.trim()) {
+          toast.error("Descrizione richiesta");
+          return;
+        }
+        save.mutate();
+      }}
+      className="space-y-3"
+    >
+      <div className="space-y-2">
+        <Label>Descrizione</Label>
+        <Input value={description} onChange={(e) => setDescription(e.target.value)} required />
+      </div>
+      <div className="grid grid-cols-2 gap-3">
+        <div className="space-y-2">
+          <Label>Quantità</Label>
+          <Input type="number" step="0.01" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+        </div>
+        <div className="space-y-2">
+          <Label>Prezzo unitario (€)</Label>
+          <Input type="number" step="0.01" value={unitPrice} onChange={(e) => setUnitPrice(e.target.value)} />
+        </div>
+      </div>
+      <p className="text-sm text-ink/60">
+        Totale: <span className="font-medium text-ink">€ {(Number(quantity) * Number(unitPrice)).toFixed(2)}</span>
+      </p>
+      <DialogFooter>
+        <Button type="button" variant="outline" onClick={onClose}>Annulla</Button>
+        <Button type="submit" disabled={save.isPending} className="bg-friuli-blue text-cream hover:bg-friuli-blue/90">
+          Salva
+        </Button>
+      </DialogFooter>
+    </form>
   );
 }
 
