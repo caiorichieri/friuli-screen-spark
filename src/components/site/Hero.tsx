@@ -27,7 +27,12 @@ export function Hero() {
             >
               Scopri il Circuito
             </a>
-            <a href="#contatti" className="group flex items-center gap-3">
+            <a
+              href="https://wa.me/393518230667?text=Ciao!%20Vorrei%20informazioni%20su%20Friuli%20On."
+              target="_blank"
+              rel="noreferrer"
+              className="group flex items-center gap-3"
+            >
               <div className="flex size-12 items-center justify-center rounded-full border-2 border-ink transition-colors group-hover:bg-friuli-yellow">
                 <span className="font-bold">→</span>
               </div>

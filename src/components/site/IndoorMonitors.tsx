@@ -109,7 +109,9 @@ export function IndoorMonitors() {
               <p className="mt-2 text-cream/70">Dalle località balneari ai paesi della pianura friulana.</p>
             </div>
             <a
-              href="#contatti"
+              href="https://wa.me/393518230667?text=Ciao!%20Vorrei%20un%20monitor%20Friuli%20On%20nel%20mio%20locale."
+              target="_blank"
+              rel="noreferrer"
               className="inline-flex items-center justify-center self-start border-2 border-ink bg-friuli-yellow px-6 py-3 font-heading text-sm uppercase tracking-tight md:self-auto"
               style={{ boxShadow: "var(--shadow-brutal)" }}
             >
