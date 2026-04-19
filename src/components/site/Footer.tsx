@@ -32,6 +32,7 @@ export function Footer() {
               <li><Link to="/servizi" className="text-cream/80 hover:text-friuli-yellow">Servizi</Link></li>
               <li><Link to="/chi-siamo" className="text-cream/80 hover:text-friuli-yellow">Chi Siamo</Link></li>
               <li><Link to="/portfolio" className="text-cream/80 hover:text-friuli-yellow">Portfolio</Link></li>
+              <li><Link to="/clienti" className="text-cream/80 hover:text-friuli-yellow">Clienti</Link></li>
               <li><Link to="/contatti" className="text-cream/80 hover:text-friuli-yellow">Contatti</Link></li>
             </ul>
           </div>
