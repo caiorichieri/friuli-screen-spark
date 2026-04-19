@@ -44,7 +44,6 @@ import {
   Euro,
   CheckCircle2,
   Clock,
-  AlertCircle,
 } from "lucide-react";
 
 export const Route = createFileRoute("/admin/progetti/$id")({
