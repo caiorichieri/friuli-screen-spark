@@ -330,6 +330,9 @@ function ProjectDetailPage() {
         )}
       </section>
 
+      {/* Vetrina pubblica portfolio */}
+      <PortfolioSection project={project} />
+
       <ItemDialog
         projectId={id}
         state={itemDialog}
