@@ -6,6 +6,7 @@ const NAV_ITEMS = [
   { to: "/servizi", label: "Servizi" },
   { to: "/chi-siamo", label: "Chi Siamo" },
   { to: "/portfolio", label: "Portfolio" },
+  { to: "/clienti", label: "Clienti" },
 ] as const;
 
 export function Navbar() {

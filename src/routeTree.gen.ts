@@ -14,6 +14,7 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as ContattiRouteImport } from './routes/contatti'
+import { Route as ClientiRouteImport } from './routes/clienti'
 import { Route as CircuitoRouteImport } from './routes/circuito'
 import { Route as ChiSiamoRouteImport } from './routes/chi-siamo'
 import { Route as IndexRouteImport } from './routes/index'
@@ -43,6 +44,11 @@ const ContattiRoute = ContattiRouteImport.update({
   path: '/contatti',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ClientiRoute = ClientiRouteImport.update({
+  id: '/clienti',
+  path: '/clienti',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CircuitoRoute = CircuitoRouteImport.update({
   id: '/circuito',
   path: '/circuito',
@@ -63,6 +69,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/chi-siamo': typeof ChiSiamoRoute
   '/circuito': typeof CircuitoRoute
+  '/clienti': typeof ClientiRoute
   '/contatti': typeof ContattiRoute
   '/cookies': typeof CookiesRoute
   '/portfolio': typeof PortfolioRoute
@@ -73,6 +80,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/chi-siamo': typeof ChiSiamoRoute
   '/circuito': typeof CircuitoRoute
+  '/clienti': typeof ClientiRoute
   '/contatti': typeof ContattiRoute
   '/cookies': typeof CookiesRoute
   '/portfolio': typeof PortfolioRoute
@@ -84,6 +92,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/chi-siamo': typeof ChiSiamoRoute
   '/circuito': typeof CircuitoRoute
+  '/clienti': typeof ClientiRoute
   '/contatti': typeof ContattiRoute
   '/cookies': typeof CookiesRoute
   '/portfolio': typeof PortfolioRoute
@@ -96,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/chi-siamo'
     | '/circuito'
+    | '/clienti'
     | '/contatti'
     | '/cookies'
     | '/portfolio'
@@ -106,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/chi-siamo'
     | '/circuito'
+    | '/clienti'
     | '/contatti'
     | '/cookies'
     | '/portfolio'
@@ -116,6 +127,7 @@ export interface FileRouteTypes {
     | '/'
     | '/chi-siamo'
     | '/circuito'
+    | '/clienti'
     | '/contatti'
     | '/cookies'
     | '/portfolio'
@@ -127,6 +139,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ChiSiamoRoute: typeof ChiSiamoRoute
   CircuitoRoute: typeof CircuitoRoute
+  ClientiRoute: typeof ClientiRoute
   ContattiRoute: typeof ContattiRoute
   CookiesRoute: typeof CookiesRoute
   PortfolioRoute: typeof PortfolioRoute
@@ -171,6 +184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContattiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/clienti': {
+      id: '/clienti'
+      path: '/clienti'
+      fullPath: '/clienti'
+      preLoaderRoute: typeof ClientiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/circuito': {
       id: '/circuito'
       path: '/circuito'
@@ -199,6 +219,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ChiSiamoRoute: ChiSiamoRoute,
   CircuitoRoute: CircuitoRoute,
+  ClientiRoute: ClientiRoute,
   ContattiRoute: ContattiRoute,
   CookiesRoute: CookiesRoute,
   PortfolioRoute: PortfolioRoute,
@@ -208,12 +229,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}

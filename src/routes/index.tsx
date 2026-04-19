@@ -6,6 +6,7 @@ import { Services } from "@/components/site/Services";
 import { About } from "@/components/site/About";
 import { Portfolio } from "@/components/site/Portfolio";
 import { Contact } from "@/components/site/Contact";
+import { ClientsMarquee } from "@/components/site/ClientsMarquee";
 import { Footer } from "@/components/site/Footer";
 import { CookieBanner } from "@/components/site/CookieBanner";
 
@@ -38,6 +39,7 @@ function Index() {
         <IndoorMonitors />
         <Services />
         <About />
+        <ClientsMarquee />
         <Portfolio />
         <Contact />
       </main>
