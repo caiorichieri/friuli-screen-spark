@@ -28,6 +28,7 @@ import {
   usePayments,
   useTogglePaymentPaid,
   calcProjectTotal,
+  usePortfolioCategoriesAdmin,
   STATUS_LABEL,
   PAYMENT_LABEL,
   type ProjectStatus,
@@ -35,6 +36,7 @@ import {
   type ProjectItem,
   type PaymentSchedule,
 } from "@/hooks/useAdminData";
+import { Switch } from "@/components/ui/switch";
 import {
   ArrowLeft,
   Plus,
@@ -44,6 +46,11 @@ import {
   Euro,
   CheckCircle2,
   Clock,
+  Upload,
+  Image as ImageIcon,
+  X,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 
 export const Route = createFileRoute("/admin/progetti/$id")({
@@ -322,6 +329,9 @@ function ProjectDetailPage() {
           </ul>
         )}
       </section>
+
+      {/* Vetrina pubblica portfolio */}
+      <PortfolioSection project={project} />
 
       <ItemDialog
         projectId={id}
@@ -636,5 +646,349 @@ function PaymentForm({
         </Button>
       </DialogFooter>
     </form>
+  );
+}
+
+// ============================================================
+// Portfolio pubblico
+// ============================================================
+
+type ProjectFull = NonNullable<ReturnType<typeof useProject>["data"]>;
+
+function PortfolioSection({ project }: { project: ProjectFull }) {
+  const qc = useQueryClient();
+  const { data: categories = [] } = usePortfolioCategoriesAdmin();
+  const [uploading, setUploading] = useState(false);
+  const [form, setForm] = useState({
+    public_summary: project.public_summary ?? "",
+    year: project.year?.toString() ?? "",
+    external_url: project.external_url ?? "",
+    portfolio_category_id: project.portfolio_category_id ?? "",
+    tags: project.tags?.join(", ") ?? "",
+    public_sort_order: project.public_sort_order?.toString() ?? "0",
+  });
+
+  const invalidate = () => {
+    void qc.invalidateQueries({ queryKey: ["admin", "project", project.id] });
+    void qc.invalidateQueries({ queryKey: ["projects", "public"] });
+  };
+
+  const togglePublic = useMutation({
+    mutationFn: async (next: boolean) => {
+      let slug = project.slug;
+      if (next && !slug) {
+        slug =
+          project.title
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-+|-+$/g, "")
+            .slice(0, 60) +
+          "-" +
+          project.id.slice(0, 6);
+      }
+      const { error } = await supabase
+        .from("projects")
+        .update({ is_public: next, slug })
+        .eq("id", project.id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast.success("Visibilità aggiornata");
+      invalidate();
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  const saveDetails = useMutation({
+    mutationFn: async () => {
+      const { error } = await supabase
+        .from("projects")
+        .update({
+          public_summary: form.public_summary.trim() || null,
+          year: form.year ? Number(form.year) : null,
+          external_url: form.external_url.trim() || null,
+          portfolio_category_id: form.portfolio_category_id || null,
+          tags: form.tags
+            .split(",")
+            .map((t) => t.trim())
+            .filter(Boolean),
+          public_sort_order: Number(form.public_sort_order) || 0,
+        })
+        .eq("id", project.id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      toast.success("Dettagli vetrina salvati");
+      invalidate();
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  const uploadImage = async (file: File, asCover: boolean) => {
+    setUploading(true);
+    try {
+      const ext = file.name.split(".").pop()?.toLowerCase() ?? "jpg";
+      const path = `${project.id}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+      const { error: upErr } = await supabase.storage
+        .from("project-images")
+        .upload(path, file, { contentType: file.type, upsert: false });
+      if (upErr) throw upErr;
+      const { data: urlData } = supabase.storage.from("project-images").getPublicUrl(path);
+      const url = urlData.publicUrl;
+
+      if (asCover) {
+        const { error } = await supabase
+          .from("projects")
+          .update({ cover_image_url: url })
+          .eq("id", project.id);
+        if (error) throw error;
+      } else {
+        const newGallery = [...(project.gallery ?? []), url];
+        const { error } = await supabase
+          .from("projects")
+          .update({ gallery: newGallery })
+          .eq("id", project.id);
+        if (error) throw error;
+      }
+      toast.success("Immagine caricata");
+      invalidate();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Errore upload");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const removeCover = async () => {
+    const { error } = await supabase
+      .from("projects")
+      .update({ cover_image_url: null })
+      .eq("id", project.id);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("Copertina rimossa");
+    invalidate();
+  };
+
+  const removeGalleryImage = async (url: string) => {
+    const newGallery = (project.gallery ?? []).filter((u) => u !== url);
+    const { error } = await supabase
+      .from("projects")
+      .update({ gallery: newGallery })
+      .eq("id", project.id);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("Immagine rimossa");
+    invalidate();
+  };
+
+  return (
+    <section
+      className="rounded-3xl border-2 border-ink bg-cream p-6"
+      style={{ boxShadow: "var(--shadow-brutal)" }}
+    >
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 className="font-heading text-xl uppercase">Vetrina pubblica</h2>
+          <p className="text-xs text-ink/60">
+            Mostra questo progetto nel portfolio pubblico del sito.
+          </p>
+        </div>
+        <label className="flex items-center gap-3 rounded-xl border-2 border-ink bg-white px-3 py-2">
+          {project.is_public ? (
+            <Eye className="h-4 w-4 text-emerald-600" />
+          ) : (
+            <EyeOff className="h-4 w-4 text-ink/50" />
+          )}
+          <span className="text-sm font-medium">
+            {project.is_public ? "Pubblicato" : "Nascosto"}
+          </span>
+          <Switch
+            checked={project.is_public}
+            onCheckedChange={(v) => togglePublic.mutate(v)}
+            disabled={togglePublic.isPending}
+          />
+        </label>
+      </div>
+
+      <div className="mb-6">
+        <Label className="text-xs uppercase">Immagine di copertina</Label>
+        {project.cover_image_url ? (
+          <div className="mt-2 relative inline-block">
+            <img
+              src={project.cover_image_url}
+              alt="Copertina"
+              className="h-40 w-64 rounded-xl border-2 border-ink object-cover"
+            />
+            <button
+              type="button"
+              onClick={removeCover}
+              className="absolute -right-2 -top-2 rounded-full border-2 border-ink bg-destructive p-1 text-white"
+              aria-label="Rimuovi copertina"
+            >
+              <X className="h-3 w-3" />
+            </button>
+          </div>
+        ) : (
+          <div className="mt-2">
+            <UploadButton
+              label="Carica copertina"
+              disabled={uploading}
+              onFile={(f) => uploadImage(f, true)}
+            />
+          </div>
+        )}
+      </div>
+
+      <div className="mb-6">
+        <Label className="text-xs uppercase">
+          Galleria ({(project.gallery ?? []).length})
+        </Label>
+        <div className="mt-2 flex flex-wrap gap-3">
+          {(project.gallery ?? []).map((url) => (
+            <div key={url} className="relative">
+              <img
+                src={url}
+                alt="Galleria"
+                className="h-24 w-24 rounded-lg border-2 border-ink object-cover"
+              />
+              <button
+                type="button"
+                onClick={() => removeGalleryImage(url)}
+                className="absolute -right-2 -top-2 rounded-full border-2 border-ink bg-destructive p-1 text-white"
+                aria-label="Rimuovi"
+              >
+                <X className="h-3 w-3" />
+              </button>
+            </div>
+          ))}
+          <UploadButton
+            label="+ Aggiungi"
+            compact
+            disabled={uploading}
+            onFile={(f) => uploadImage(f, false)}
+          />
+        </div>
+      </div>
+
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          saveDetails.mutate();
+        }}
+        className="grid gap-4 border-t-2 border-ink pt-4 sm:grid-cols-2"
+      >
+        <div className="space-y-2 sm:col-span-2">
+          <Label>Riassunto pubblico</Label>
+          <Textarea
+            rows={2}
+            value={form.public_summary}
+            onChange={(e) => setForm({ ...form, public_summary: e.target.value })}
+            placeholder="Breve descrizione visibile nel portfolio pubblico"
+          />
+        </div>
+        <div className="space-y-2">
+          <Label>Categoria portfolio</Label>
+          <Select
+            value={form.portfolio_category_id || "none"}
+            onValueChange={(v) =>
+              setForm({ ...form, portfolio_category_id: v === "none" ? "" : v })
+            }
+          >
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="none">— Nessuna —</SelectItem>
+              {categories.map((c) => (
+                <SelectItem key={c.id} value={c.id}>
+                  {c.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="space-y-2">
+          <Label>Anno</Label>
+          <Input
+            type="number"
+            value={form.year}
+            onChange={(e) => setForm({ ...form, year: e.target.value })}
+            placeholder="2025"
+          />
+        </div>
+        <div className="space-y-2 sm:col-span-2">
+          <Label>Tag (separati da virgola)</Label>
+          <Input
+            value={form.tags}
+            onChange={(e) => setForm({ ...form, tags: e.target.value })}
+            placeholder="branding, social, video"
+          />
+        </div>
+        <div className="space-y-2">
+          <Label>Link caso studio (opzionale)</Label>
+          <Input
+            value={form.external_url}
+            onChange={(e) => setForm({ ...form, external_url: e.target.value })}
+            placeholder="https://..."
+          />
+        </div>
+        <div className="space-y-2">
+          <Label>Ordine vetrina (basso = prima)</Label>
+          <Input
+            type="number"
+            value={form.public_sort_order}
+            onChange={(e) => setForm({ ...form, public_sort_order: e.target.value })}
+          />
+        </div>
+        <div className="sm:col-span-2">
+          <Button
+            type="submit"
+            disabled={saveDetails.isPending}
+            className="bg-friuli-blue text-cream hover:bg-friuli-blue/90"
+          >
+            Salva dettagli vetrina
+          </Button>
+        </div>
+      </form>
+    </section>
+  );
+}
+
+function UploadButton({
+  label,
+  compact,
+  disabled,
+  onFile,
+}: {
+  label: string;
+  compact?: boolean;
+  disabled?: boolean;
+  onFile: (file: File) => void;
+}) {
+  return (
+    <label
+      className={`flex cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-dashed border-ink bg-cream font-medium transition-colors hover:bg-ink/5 ${
+        compact ? "h-24 w-24 text-xs" : "h-12 w-64 text-sm"
+      } ${disabled ? "pointer-events-none opacity-50" : ""}`}
+    >
+      {compact ? <ImageIcon className="h-4 w-4" /> : <Upload className="h-4 w-4" />}
+      <span>{label}</span>
+      <input
+        type="file"
+        accept="image/*"
+        className="hidden"
+        disabled={disabled}
+        onChange={(e) => {
+          const f = e.target.files?.[0];
+          if (f) onFile(f);
+          e.target.value = "";
+        }}
+      />
+    </label>
   );
 }

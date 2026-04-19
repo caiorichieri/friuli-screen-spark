@@ -106,6 +106,33 @@ export type Database = {
           },
         ]
       }
+      portfolio_categories: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -174,42 +201,72 @@ export type Database = {
       projects: {
         Row: {
           client_id: string
+          cover_image_url: string | null
           created_at: string
           description: string | null
           end_date: string | null
+          external_url: string | null
           flat_amount: number | null
+          gallery: Json
           id: string
+          is_public: boolean
           notes: string | null
+          portfolio_category_id: string | null
+          public_sort_order: number
+          public_summary: string | null
+          slug: string | null
           start_date: string | null
           status: Database["public"]["Enums"]["project_status"]
+          tags: string[]
           title: string
           updated_at: string
+          year: number | null
         }
         Insert: {
           client_id: string
+          cover_image_url?: string | null
           created_at?: string
           description?: string | null
           end_date?: string | null
+          external_url?: string | null
           flat_amount?: number | null
+          gallery?: Json
           id?: string
+          is_public?: boolean
           notes?: string | null
+          portfolio_category_id?: string | null
+          public_sort_order?: number
+          public_summary?: string | null
+          slug?: string | null
           start_date?: string | null
           status?: Database["public"]["Enums"]["project_status"]
+          tags?: string[]
           title: string
           updated_at?: string
+          year?: number | null
         }
         Update: {
           client_id?: string
+          cover_image_url?: string | null
           created_at?: string
           description?: string | null
           end_date?: string | null
+          external_url?: string | null
           flat_amount?: number | null
+          gallery?: Json
           id?: string
+          is_public?: boolean
           notes?: string | null
+          portfolio_category_id?: string | null
+          public_sort_order?: number
+          public_summary?: string | null
+          slug?: string | null
           start_date?: string | null
           status?: Database["public"]["Enums"]["project_status"]
+          tags?: string[]
           title?: string
           updated_at?: string
+          year?: number | null
         }
         Relationships: [
           {
@@ -217,6 +274,13 @@ export type Database = {
             columns: ["client_id"]
             isOneToOne: false
             referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "projects_portfolio_category_id_fkey"
+            columns: ["portfolio_category_id"]
+            isOneToOne: false
+            referencedRelation: "portfolio_categories"
             referencedColumns: ["id"]
           },
         ]
