@@ -243,48 +243,45 @@ function ClientEditor({
   client: Client | null;
   onSaved: () => void;
 }) {
-  const [name, setName] = useState("");
-  const [website, setWebsite] = useState("");
-  const [description, setDescription] = useState("");
-  const [logoUrl, setLogoUrl] = useState<string | null>(null);
-  const [logoFile, setLogoFile] = useState<File | null>(null);
-  const [isPublic, setIsPublic] = useState(true);
-  const [sortOrder, setSortOrder] = useState(0);
-  const [saving, setSaving] = useState(false);
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>{client ? "Modifica cliente" : "Nuovo cliente"}</DialogTitle>
+        </DialogHeader>
+        {open && (
+          <ClientForm
+            key={client?.id ?? "new"}
+            client={client}
+            onCancel={() => onOpenChange(false)}
+            onSaved={() => {
+              onSaved();
+              onOpenChange(false);
+            }}
+          />
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+}
 
-  // Reset form when dialog opens/closes
-  useState(() => {
-    if (open) {
-      setName(client?.name ?? "");
-      setWebsite(client?.website ?? "");
-      setDescription(client?.description ?? "");
-      setLogoUrl(client?.logo_url ?? null);
-      setLogoFile(null);
-      setIsPublic(client?.is_public ?? true);
-      setSortOrder(client?.sort_order ?? 0);
-    }
-  });
-  // useEffect-style sync via key on Dialog open
-  if (open && client && client.id !== (window as unknown as { __lastClient?: string }).__lastClient) {
-    (window as unknown as { __lastClient?: string }).__lastClient = client.id;
-    setName(client.name);
-    setWebsite(client.website ?? "");
-    setDescription(client.description ?? "");
-    setLogoUrl(client.logo_url);
-    setLogoFile(null);
-    setIsPublic(client.is_public);
-    setSortOrder(client.sort_order);
-  }
-  if (open && !client && (window as unknown as { __lastClient?: string }).__lastClient !== "__new__") {
-    (window as unknown as { __lastClient?: string }).__lastClient = "__new__";
-    setName("");
-    setWebsite("");
-    setDescription("");
-    setLogoUrl(null);
-    setLogoFile(null);
-    setIsPublic(true);
-    setSortOrder(0);
-  }
+function ClientForm({
+  client,
+  onCancel,
+  onSaved,
+}: {
+  client: Client | null;
+  onCancel: () => void;
+  onSaved: () => void;
+}) {
+  const [name, setName] = useState(client?.name ?? "");
+  const [website, setWebsite] = useState(client?.website ?? "");
+  const [description, setDescription] = useState(client?.description ?? "");
+  const [logoUrl, setLogoUrl] = useState<string | null>(client?.logo_url ?? null);
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [isPublic, setIsPublic] = useState(client?.is_public ?? true);
+  const [sortOrder, setSortOrder] = useState(client?.sort_order ?? 0);
+  const [saving, setSaving] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
