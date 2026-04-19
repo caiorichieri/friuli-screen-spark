@@ -56,8 +56,8 @@ export function IndoorMonitors() {
               Monitor indoor dove la gente <span className="text-friuli-yellow">si incontra</span>.
             </h2>
             <p className="text-lg leading-relaxed text-cream/80 md:text-xl">
-              Una rete di schermi TV posizionati nei punti più frequentati del Friuli. Niente
-              distrazioni, solo attenzione reale, in contesti di vita quotidiana.
+              Una rete di schermi TV posizionati nei punti più frequentati del Friuli. Niente distrazioni, solo
+              attenzione reale, in contesti di vita quotidiana.
             </p>
           </div>
         </div>
@@ -89,10 +89,7 @@ export function IndoorMonitors() {
                 <p className="mb-5 text-sm leading-relaxed text-ink/70">{cat.description}</p>
                 <div className="flex flex-wrap gap-2">
                   {cat.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded border border-ink/20 px-2 py-1 text-[10px] font-bold uppercase"
-                    >
+                    <span key={tag} className="rounded border border-ink/20 px-2 py-1 text-[10px] font-bold uppercase">
                       {tag}
                     </span>
                   ))}
@@ -109,9 +106,7 @@ export function IndoorMonitors() {
               <h3 className="text-2xl uppercase text-cream md:text-3xl">
                 Presenti in <span className="text-friuli-yellow">11 comuni</span> del Friuli
               </h3>
-              <p className="mt-2 text-cream/70">
-                Dalle località balneari ai paesi della pianura friulana.
-              </p>
+              <p className="mt-2 text-cream/70">Dalle località balneari ai paesi della pianura friulana.</p>
             </div>
             <a
               href="#contatti"
@@ -138,17 +133,13 @@ export function IndoorMonitors() {
         <div className="mt-16 grid grid-cols-2 gap-8 border-y border-cream/20 py-12 md:grid-cols-4">
           {[
             { v: "11", l: "Comuni coperti" },
-            { v: "3", l: "Categorie di location" },
+            { v: "32", l: "Annuncianti" },
             { v: "24/7", l: "Sempre on air" },
             { v: "100%", l: "Territorio FVG" },
           ].map((s) => (
             <div key={s.l} className="text-center">
-              <p className="font-heading text-4xl tracking-tighter text-friuli-yellow md:text-5xl">
-                {s.v}
-              </p>
-              <p className="mt-2 text-[10px] font-bold uppercase tracking-widest text-cream/60 md:text-xs">
-                {s.l}
-              </p>
+              <p className="font-heading text-4xl tracking-tighter text-friuli-yellow md:text-5xl">{s.v}</p>
+              <p className="mt-2 text-[10px] font-bold uppercase tracking-widest text-cream/60 md:text-xs">{s.l}</p>
             </div>
           ))}
         </div>
