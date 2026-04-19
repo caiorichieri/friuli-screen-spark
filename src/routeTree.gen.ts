@@ -12,12 +12,15 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ServiziRouteImport } from './routes/servizi'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as ContattiRouteImport } from './routes/contatti'
 import { Route as ClientiRouteImport } from './routes/clienti'
 import { Route as CircuitoRouteImport } from './routes/circuito'
 import { Route as ChiSiamoRouteImport } from './routes/chi-siamo'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 
 const ServiziRoute = ServiziRouteImport.update({
   id: '/servizi',
@@ -32,6 +35,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const PortfolioRoute = PortfolioRouteImport.update({
   id: '/portfolio',
   path: '/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CookiesRoute = CookiesRouteImport.update({
@@ -59,22 +67,35 @@ const ChiSiamoRoute = ChiSiamoRouteImport.update({
   path: '/chi-siamo',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/chi-siamo': typeof ChiSiamoRoute
   '/circuito': typeof CircuitoRoute
   '/clienti': typeof ClientiRoute
   '/contatti': typeof ContattiRoute
   '/cookies': typeof CookiesRoute
+  '/login': typeof LoginRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
   '/servizi': typeof ServiziRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -83,34 +104,42 @@ export interface FileRoutesByTo {
   '/clienti': typeof ClientiRoute
   '/contatti': typeof ContattiRoute
   '/cookies': typeof CookiesRoute
+  '/login': typeof LoginRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
   '/servizi': typeof ServiziRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/chi-siamo': typeof ChiSiamoRoute
   '/circuito': typeof CircuitoRoute
   '/clienti': typeof ClientiRoute
   '/contatti': typeof ContattiRoute
   '/cookies': typeof CookiesRoute
+  '/login': typeof LoginRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
   '/servizi': typeof ServiziRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/chi-siamo'
     | '/circuito'
     | '/clienti'
     | '/contatti'
     | '/cookies'
+    | '/login'
     | '/portfolio'
     | '/privacy'
     | '/servizi'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -119,29 +148,36 @@ export interface FileRouteTypes {
     | '/clienti'
     | '/contatti'
     | '/cookies'
+    | '/login'
     | '/portfolio'
     | '/privacy'
     | '/servizi'
+    | '/admin'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/chi-siamo'
     | '/circuito'
     | '/clienti'
     | '/contatti'
     | '/cookies'
+    | '/login'
     | '/portfolio'
     | '/privacy'
     | '/servizi'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
   ChiSiamoRoute: typeof ChiSiamoRoute
   CircuitoRoute: typeof CircuitoRoute
   ClientiRoute: typeof ClientiRoute
   ContattiRoute: typeof ContattiRoute
   CookiesRoute: typeof CookiesRoute
+  LoginRoute: typeof LoginRoute
   PortfolioRoute: typeof PortfolioRoute
   PrivacyRoute: typeof PrivacyRoute
   ServiziRoute: typeof ServiziRoute
@@ -168,6 +204,13 @@ declare module '@tanstack/react-router' {
       path: '/portfolio'
       fullPath: '/portfolio'
       preLoaderRoute: typeof PortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cookies': {
@@ -205,6 +248,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChiSiamoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -212,16 +262,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
   ChiSiamoRoute: ChiSiamoRoute,
   CircuitoRoute: CircuitoRoute,
   ClientiRoute: ClientiRoute,
   ContattiRoute: ContattiRoute,
   CookiesRoute: CookiesRoute,
+  LoginRoute: LoginRoute,
   PortfolioRoute: PortfolioRoute,
   PrivacyRoute: PrivacyRoute,
   ServiziRoute: ServiziRoute,
@@ -229,3 +298,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
