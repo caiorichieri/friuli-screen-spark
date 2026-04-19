@@ -58,11 +58,16 @@ function AdminLayout() {
     );
   }
 
-  const navItems = [
+  const navItems: Array<{
+    to: "/admin" | "/admin/clienti" | "/admin/servizi";
+    label: string;
+    icon: typeof LayoutDashboard;
+    exact?: boolean;
+  }> = [
     { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
     { to: "/admin/clienti", label: "Clienti", icon: Users },
     { to: "/admin/servizi", label: "Servizi", icon: Briefcase },
-  ] as const;
+  ];
 
   return (
     <div className="flex min-h-screen bg-cream">
