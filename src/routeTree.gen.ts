@@ -21,6 +21,7 @@ import { Route as ChiSiamoRouteImport } from './routes/chi-siamo'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminServiziRouteImport } from './routes/admin.servizi'
 import { Route as AdminClientiRouteImport } from './routes/admin.clienti'
 
 const ServiziRoute = ServiziRouteImport.update({
@@ -83,6 +84,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminServiziRoute = AdminServiziRouteImport.update({
+  id: '/servizi',
+  path: '/servizi',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminClientiRoute = AdminClientiRouteImport.update({
   id: '/clienti',
   path: '/clienti',
@@ -102,6 +108,7 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/servizi': typeof ServiziRoute
   '/admin/clienti': typeof AdminClientiRoute
+  '/admin/servizi': typeof AdminServiziRoute
   '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
@@ -116,6 +123,7 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/servizi': typeof ServiziRoute
   '/admin/clienti': typeof AdminClientiRoute
+  '/admin/servizi': typeof AdminServiziRoute
   '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
@@ -132,6 +140,7 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/servizi': typeof ServiziRoute
   '/admin/clienti': typeof AdminClientiRoute
+  '/admin/servizi': typeof AdminServiziRoute
   '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
@@ -149,6 +158,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/servizi'
     | '/admin/clienti'
+    | '/admin/servizi'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -163,6 +173,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/servizi'
     | '/admin/clienti'
+    | '/admin/servizi'
     | '/admin'
   id:
     | '__root__'
@@ -178,6 +189,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/servizi'
     | '/admin/clienti'
+    | '/admin/servizi'
     | '/admin/'
   fileRoutesById: FileRoutesById
 }
@@ -281,6 +293,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/servizi': {
+      id: '/admin/servizi'
+      path: '/servizi'
+      fullPath: '/admin/servizi'
+      preLoaderRoute: typeof AdminServiziRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/clienti': {
       id: '/admin/clienti'
       path: '/clienti'
@@ -293,11 +312,13 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminClientiRoute: typeof AdminClientiRoute
+  AdminServiziRoute: typeof AdminServiziRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminClientiRoute: AdminClientiRoute,
+  AdminServiziRoute: AdminServiziRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
@@ -319,3 +340,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
