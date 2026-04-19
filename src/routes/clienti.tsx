@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { CookieBanner } from "@/components/site/CookieBanner";
-import { clients } from "@/data/clients";
+import { usePublicClients } from "@/hooks/usePublicData";
 
 export const Route = createFileRoute("/clienti")({
   head: () => ({
@@ -26,6 +26,8 @@ export const Route = createFileRoute("/clienti")({
 });
 
 function ClientiPage() {
+  const { data: clients = [], isLoading } = usePublicClients();
+
   return (
     <div className="min-h-screen bg-cream text-ink">
       <Navbar />
@@ -47,7 +49,16 @@ function ClientiPage() {
 
         {/* Grid */}
         <section className="mx-auto max-w-7xl px-6 pb-20 md:px-8 md:pb-28">
-          {clients.length === 0 ? (
+          {isLoading ? (
+            <ul className="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4 md:gap-6 lg:grid-cols-5">
+              {Array.from({ length: 10 }).map((_, i) => (
+                <li
+                  key={i}
+                  className="h-44 animate-pulse rounded-2xl border-2 border-ink/20 bg-ink/5"
+                />
+              ))}
+            </ul>
+          ) : clients.length === 0 ? (
             <div className="rounded-3xl border-2 border-dashed border-ink/30 bg-cream p-12 text-center">
               <p className="font-heading text-2xl uppercase">
                 Stiamo caricando i nostri clienti
@@ -73,12 +84,18 @@ function ClientiPage() {
                     style={{ boxShadow: "var(--shadow-brutal)" }}
                   >
                     <div className="flex h-24 w-full items-center justify-center md:h-28">
-                      <img
-                        src={client.logo}
-                        alt={client.name}
-                        loading="lazy"
-                        className="max-h-full max-w-full object-contain"
-                      />
+                      {client.logo_url ? (
+                        <img
+                          src={client.logo_url}
+                          alt={client.name}
+                          loading="lazy"
+                          className="max-h-full max-w-full object-contain"
+                        />
+                      ) : (
+                        <span className="font-heading text-2xl uppercase text-ink/40">
+                          {client.name.charAt(0)}
+                        </span>
+                      )}
                     </div>
                     <p className="font-heading text-sm uppercase leading-tight">
                       {client.name}
@@ -92,7 +109,7 @@ function ClientiPage() {
                 );
 
                 return (
-                  <li key={client.name}>
+                  <li key={client.id}>
                     {client.website ? (
                       <a
                         href={client.website}

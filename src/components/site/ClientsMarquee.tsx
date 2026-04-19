@@ -1,14 +1,15 @@
 import { Link } from "@tanstack/react-router";
-import { clients } from "@/data/clients";
+import { usePublicClients } from "@/hooks/usePublicData";
 
 /**
  * Fascia orizzontale animata con i loghi dei clienti.
- * Se non ci sono clienti caricati, mostra un placeholder discreto.
+ * Carica i dati dal database (gestiti dal pannello admin).
  */
 export function ClientsMarquee() {
+  const { data: clients = [], isLoading } = usePublicClients();
   const hasClients = clients.length > 0;
 
-  // Duplichiamo la lista per ottenere uno scroll infinito senza salti
+  // Duplichiamo la lista per scroll infinito senza salti
   const loop = hasClients ? [...clients, ...clients] : [];
 
   return (
@@ -29,17 +30,23 @@ export function ClientsMarquee() {
               I nostri clienti
             </h2>
           </div>
-          <Link
-            to="/clienti"
-            className="inline-flex items-center gap-2 rounded-full border-2 border-ink bg-friuli-yellow px-5 py-2.5 text-sm font-bold uppercase tracking-wider transition-all hover:-translate-x-0.5 hover:-translate-y-0.5"
-            style={{ boxShadow: "var(--shadow-brutal)" }}
-          >
-            Vedi tutti →
-          </Link>
+          {hasClients && (
+            <Link
+              to="/clienti"
+              className="inline-flex items-center gap-2 rounded-full border-2 border-ink bg-friuli-yellow px-5 py-2.5 text-sm font-bold uppercase tracking-wider transition-all hover:-translate-x-0.5 hover:-translate-y-0.5"
+              style={{ boxShadow: "var(--shadow-brutal)" }}
+            >
+              Vedi tutti →
+            </Link>
+          )}
         </div>
       </div>
 
-      {hasClients ? (
+      {isLoading ? (
+        <div className="mx-auto max-w-7xl px-6 md:px-8">
+          <div className="h-20 animate-pulse rounded-2xl bg-ink/5 md:h-24" />
+        </div>
+      ) : hasClients ? (
         <div
           className="group relative overflow-hidden"
           style={{
@@ -51,17 +58,19 @@ export function ClientsMarquee() {
         >
           <div className="flex w-max animate-marquee gap-12 group-hover:[animation-play-state:paused] md:gap-16">
             {loop.map((client, idx) => {
-              const inner = (
+              const inner = client.logo_url ? (
                 <img
-                  src={client.logo}
+                  src={client.logo_url}
                   alt={client.name}
                   loading="lazy"
                   className="max-h-full max-w-[160px] object-contain opacity-80 transition-opacity hover:opacity-100 md:max-w-[200px]"
                 />
+              ) : (
+                <span className="font-heading text-xl uppercase text-ink/70">{client.name}</span>
               );
               return (
                 <div
-                  key={`${client.name}-${idx}`}
+                  key={`${client.id}-${idx}`}
                   className="flex h-20 shrink-0 items-center justify-center md:h-24"
                   title={client.name}
                 >
