@@ -12,18 +12,18 @@ const NAV_ITEMS = [
 export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 border-b-2 border-ink bg-cream/95 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 md:px-8 md:py-4">
-        <Link to="/" className="flex items-center" aria-label="Friuli On — home">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3 md:px-8 md:py-4">
+        <Link to="/" className="flex shrink-0 items-center" aria-label="Friuli On — home">
           <img
             src={logo}
             alt="Friuli On"
-            className="h-12 w-auto md:h-16"
+            className="h-12 w-auto lg:h-16"
             width={907}
             height={349}
           />
         </Link>
 
-        <div className="hidden items-center gap-8 text-sm font-semibold uppercase tracking-widest md:flex">
+        <div className="hidden items-center gap-6 text-sm font-semibold uppercase tracking-widest lg:flex xl:gap-8">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.to}
@@ -45,7 +45,7 @@ export function Navbar() {
 
         <Link
           to="/contatti"
-          className="rounded-full border-2 border-ink bg-friuli-blue px-4 py-2 text-xs font-bold uppercase text-cream md:hidden"
+          className="shrink-0 rounded-full border-2 border-ink bg-friuli-blue px-4 py-2 text-xs font-bold uppercase text-cream lg:hidden"
         >
           Contatti
         </Link>
