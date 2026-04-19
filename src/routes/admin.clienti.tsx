@@ -325,9 +325,7 @@ function ClientForm({
         toast.success("Cliente creato");
       }
 
-      (window as unknown as { __lastClient?: string }).__lastClient = undefined;
       onSaved();
-      onOpenChange(false);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Errore durante il salvataggio");
     } finally {
@@ -336,100 +334,89 @@ function ClientForm({
   };
 
   return (
-    <Dialog open={open} onOpenChange={(v) => {
-      if (!v) (window as unknown as { __lastClient?: string }).__lastClient = undefined;
-      onOpenChange(v);
-    }}>
-      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>{client ? "Modifica cliente" : "Nuovo cliente"}</DialogTitle>
-        </DialogHeader>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="space-y-2">
+        <Label htmlFor="name">Nome *</Label>
+        <Input id="name" value={name} onChange={(e) => setName(e.target.value)} required />
+      </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="name">Nome *</Label>
-            <Input id="name" value={name} onChange={(e) => setName(e.target.value)} required />
-          </div>
-
-          <div className="space-y-2">
-            <Label>Logo</Label>
-            <div className="flex items-center gap-3">
-              <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-lg border-2 border-ink bg-white p-2">
-                {logoFile ? (
-                  <img
-                    src={URL.createObjectURL(logoFile)}
-                    alt=""
-                    className="max-h-full max-w-full object-contain"
-                  />
-                ) : logoUrl ? (
-                  <img src={logoUrl} alt="" className="max-h-full max-w-full object-contain" />
-                ) : (
-                  <ImagePlus className="h-6 w-6 text-ink/30" />
-                )}
-              </div>
-              <Input
-                type="file"
-                accept="image/png,image/jpeg,image/webp,image/svg+xml"
-                onChange={(e) => setLogoFile(e.target.files?.[0] ?? null)}
+      <div className="space-y-2">
+        <Label>Logo</Label>
+        <div className="flex items-center gap-3">
+          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-lg border-2 border-ink bg-white p-2">
+            {logoFile ? (
+              <img
+                src={URL.createObjectURL(logoFile)}
+                alt=""
+                className="max-h-full max-w-full object-contain"
               />
-            </div>
-            <p className="text-xs text-ink/60">PNG con sfondo trasparente, max 2MB consigliato.</p>
+            ) : logoUrl ? (
+              <img src={logoUrl} alt="" className="max-h-full max-w-full object-contain" />
+            ) : (
+              <ImagePlus className="h-6 w-6 text-ink/30" />
+            )}
           </div>
+          <Input
+            type="file"
+            accept="image/png,image/jpeg,image/webp,image/svg+xml"
+            onChange={(e) => setLogoFile(e.target.files?.[0] ?? null)}
+          />
+        </div>
+        <p className="text-xs text-ink/60">PNG con sfondo trasparente, max 2MB consigliato.</p>
+      </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="website">Sito web</Label>
-            <Input
-              id="website"
-              type="url"
-              placeholder="https://"
-              value={website}
-              onChange={(e) => setWebsite(e.target.value)}
-            />
-          </div>
+      <div className="space-y-2">
+        <Label htmlFor="website">Sito web</Label>
+        <Input
+          id="website"
+          type="url"
+          placeholder="https://"
+          value={website}
+          onChange={(e) => setWebsite(e.target.value)}
+        />
+      </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="description">Note interne</Label>
-            <Textarea
-              id="description"
-              rows={3}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Note opzionali, non visibili sul sito."
-            />
-          </div>
+      <div className="space-y-2">
+        <Label htmlFor="description">Note interne</Label>
+        <Textarea
+          id="description"
+          rows={3}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Note opzionali, non visibili sul sito."
+        />
+      </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-2">
-              <Label htmlFor="sort">Ordine</Label>
-              <Input
-                id="sort"
-                type="number"
-                value={sortOrder}
-                onChange={(e) => setSortOrder(Number(e.target.value))}
-              />
-            </div>
-            <div className="flex items-end">
-              <label className="flex items-center gap-2 pb-2 text-sm">
-                <Switch checked={isPublic} onCheckedChange={setIsPublic} />
-                Pubblico sul sito
-              </label>
-            </div>
-          </div>
+      <div className="grid grid-cols-2 gap-3">
+        <div className="space-y-2">
+          <Label htmlFor="sort">Ordine</Label>
+          <Input
+            id="sort"
+            type="number"
+            value={sortOrder}
+            onChange={(e) => setSortOrder(Number(e.target.value))}
+          />
+        </div>
+        <div className="flex items-end">
+          <label className="flex items-center gap-2 pb-2 text-sm">
+            <Switch checked={isPublic} onCheckedChange={setIsPublic} />
+            Pubblico sul sito
+          </label>
+        </div>
+      </div>
 
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              Annulla
-            </Button>
-            <Button
-              type="submit"
-              disabled={saving}
-              className="bg-friuli-blue text-cream hover:bg-friuli-blue/90"
-            >
-              {saving ? "Salvataggio..." : "Salva"}
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+      <DialogFooter>
+        <Button type="button" variant="outline" onClick={onCancel}>
+          Annulla
+        </Button>
+        <Button
+          type="submit"
+          disabled={saving}
+          className="bg-friuli-blue text-cream hover:bg-friuli-blue/90"
+        >
+          {saving ? "Salvataggio..." : "Salva"}
+        </Button>
+      </DialogFooter>
+    </form>
   );
 }
