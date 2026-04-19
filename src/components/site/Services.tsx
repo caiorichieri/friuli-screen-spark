@@ -1,43 +1,66 @@
-const SERVICES = [
+import { usePublicServices } from "@/hooks/usePublicData";
+
+const FALLBACK_SERVICES = [
   {
+    id: "f-seo",
     title: "SEO",
-    desc: "Posizionamento sui motori di ricerca per farti trovare dai clienti locali.",
+    description: "Posizionamento sui motori di ricerca per farti trovare dai clienti locali.",
     icon: "🔍",
-    color: "bg-friuli-yellow",
   },
   {
+    id: "f-grafica",
     title: "Grafica",
-    desc: "Identità visiva, loghi e materiali coordinati che raccontano il tuo brand.",
+    description: "Identità visiva, loghi e materiali coordinati che raccontano il tuo brand.",
     icon: "🎨",
-    color: "bg-cream border-2 border-ink",
   },
   {
+    id: "f-volantini",
     title: "Volantini",
-    desc: "Stampa professionale per promozioni, eventi e campagne mirate sul territorio.",
+    description: "Stampa professionale per promozioni, eventi e campagne mirate sul territorio.",
     icon: "📄",
-    color: "bg-friuli-blue text-cream",
   },
   {
+    id: "f-siti",
     title: "Creazione Siti",
-    desc: "Siti web moderni, veloci e ottimizzati per dispositivi mobili.",
+    description: "Siti web moderni, veloci e ottimizzati per dispositivi mobili.",
     icon: "💻",
-    color: "bg-cream border-2 border-ink",
   },
   {
+    id: "f-app",
     title: "Applicazioni",
-    desc: "App su misura per la tua attività, dal gestionale al booking online.",
+    description: "App su misura per la tua attività, dal gestionale al booking online.",
     icon: "📱",
-    color: "bg-friuli-yellow",
   },
   {
+    id: "f-monitor",
     title: "Monitor Indoor",
-    desc: "La nostra rete di TV nei luoghi più frequentati del Friuli.",
+    description: "La nostra rete di TV nei luoghi più frequentati del Friuli.",
     icon: "📺",
-    color: "bg-friuli-blue text-cream",
   },
 ];
 
+const COLORS = [
+  "bg-friuli-yellow",
+  "bg-cream border-2 border-ink",
+  "bg-friuli-blue text-cream",
+  "bg-cream border-2 border-ink",
+  "bg-friuli-yellow",
+  "bg-friuli-blue text-cream",
+];
+
 export function Services() {
+  const { data: dbServices = [], isLoading } = usePublicServices();
+
+  const services =
+    dbServices.length > 0
+      ? dbServices.map((s) => ({
+          id: s.id,
+          title: s.title,
+          description: s.description ?? "",
+          icon: s.icon || "✨",
+        }))
+      : FALLBACK_SERVICES;
+
   return (
     <section
       id="servizi"
@@ -60,26 +83,37 @@ export function Services() {
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {SERVICES.map((s) => (
-            <div
-              key={s.title}
-              className={`group flex flex-col justify-between rounded-3xl border-2 border-ink p-6 transition-all hover:-translate-y-2 ${s.color}`}
-              style={{ boxShadow: "var(--shadow-brutal-lg)" }}
-            >
-              <div className="mb-8 text-5xl">{s.icon}</div>
-              <div>
-                <h3 className="font-heading text-2xl uppercase leading-none md:text-3xl">
-                  {s.title}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed opacity-80">{s.desc}</p>
-                <div className="mt-6 flex size-10 items-center justify-center rounded-full border-2 border-current">
-                  <span>→</span>
+        {isLoading && dbServices.length === 0 ? (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div
+                key={i}
+                className="h-64 animate-pulse rounded-3xl border-2 border-ink/20 bg-ink/5"
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {services.map((s, idx) => (
+              <div
+                key={s.id}
+                className={`group flex flex-col justify-between rounded-3xl border-2 border-ink p-6 transition-all hover:-translate-y-2 ${COLORS[idx % COLORS.length]}`}
+                style={{ boxShadow: "var(--shadow-brutal-lg)" }}
+              >
+                <div className="mb-8 text-5xl">{s.icon}</div>
+                <div>
+                  <h3 className="font-heading text-2xl uppercase leading-none md:text-3xl">
+                    {s.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed opacity-80">{s.description}</p>
+                  <div className="mt-6 flex size-10 items-center justify-center rounded-full border-2 border-current">
+                    <span>→</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
