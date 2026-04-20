@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useLocation } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -60,8 +60,13 @@ const STATUS_COLORS: Record<ProjectStatus, string> = {
 };
 
 function AdminProjectsPage() {
+  const location = useLocation();
   const [statusFilter, setStatusFilter] = useState<ProjectStatus | "all">("all");
   const [open, setOpen] = useState(false);
+
+  if (location.pathname !== "/admin/progetti") {
+    return <Outlet />;
+  }
 
   const { data: projects = [], isLoading } = useProjects(
     statusFilter === "all" ? undefined : { status: statusFilter },
