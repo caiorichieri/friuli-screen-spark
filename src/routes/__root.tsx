@@ -57,7 +57,7 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Friuli On — Pubblicità locale e monitor indoor in FVG" },
+      { title: "Friuli On — Online. E nei luoghi che contano." },
       {
         name: "description",
         content:
@@ -70,6 +70,11 @@ export const Route = createRootRoute({
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/iME4qutiMvQWTfEWBPjGKRFf98H3/social-images/social-1776447337802-LOGO_FRIULI_ON_MARCHIO.webp" },
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/iME4qutiMvQWTfEWBPjGKRFf98H3/social-images/social-1776447337802-LOGO_FRIULI_ON_MARCHIO.webp" },
+      { property: "og:title", content: "Friuli On — Online. E nei luoghi che contano." },
+      { name: "twitter:title", content: "Friuli On — Online. E nei luoghi che contano." },
+      { name: "description", content: "Agenzia di marketing digitale in Friuli. Siti web, SEO, Google e Meta ADS, grafica e una rete di monitor indoor nel territorio. Siamo dove conta." },
+      { property: "og:description", content: "Agenzia di marketing digitale in Friuli. Siti web, SEO, Google e Meta ADS, grafica e una rete di monitor indoor nel territorio. Siamo dove conta." },
+      { name: "twitter:description", content: "Agenzia di marketing digitale in Friuli. Siti web, SEO, Google e Meta ADS, grafica e una rete di monitor indoor nel territorio. Siamo dove conta." },
     ],
     links: [
       {
