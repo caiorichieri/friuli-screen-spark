@@ -49,9 +49,8 @@ export function usePublicClients() {
     queryKey: ["clients", "public"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("clients")
+        .from("clients_public")
         .select("id, name, slug, logo_url, website, sort_order")
-        .eq("is_public", true)
         .order("sort_order", { ascending: true })
         .order("name", { ascending: true });
       if (error) throw error;

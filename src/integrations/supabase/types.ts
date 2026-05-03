@@ -277,6 +277,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "projects_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients_public"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "projects_portfolio_category_id_fkey"
             columns: ["portfolio_category_id"]
             isOneToOne: false
@@ -382,7 +389,45 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      clients_public: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string | null
+          is_public: boolean | null
+          logo_url: string | null
+          name: string | null
+          slug: string | null
+          sort_order: number | null
+          updated_at: string | null
+          website: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string | null
+          is_public?: boolean | null
+          logo_url?: string | null
+          name?: string | null
+          slug?: string | null
+          sort_order?: number | null
+          updated_at?: string | null
+          website?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string | null
+          is_public?: boolean | null
+          logo_url?: string | null
+          name?: string | null
+          slug?: string | null
+          sort_order?: number | null
+          updated_at?: string | null
+          website?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       has_role: {
