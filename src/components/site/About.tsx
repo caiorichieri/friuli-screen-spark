@@ -29,11 +29,11 @@ export function About() {
             ].map((b) => (
               <div
                 key={b.k}
-                className="rounded-2xl border-2 border-ink bg-friuli-yellow p-4 text-center"
+                className="rounded-2xl border-2 border-ink bg-friuli-yellow p-3 text-center md:p-4"
                 style={{ boxShadow: "var(--shadow-brutal)" }}
               >
-                <div className="font-heading text-2xl">{b.v}</div>
-                <div className="text-[10px] font-bold uppercase tracking-widest">{b.k}</div>
+                <div className="font-heading text-base sm:text-xl md:text-2xl break-words leading-tight">{b.v}</div>
+                <div className="mt-1 text-[9px] font-bold uppercase tracking-widest sm:text-[10px]">{b.k}</div>
               </div>
             ))}
           </div>
