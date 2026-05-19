@@ -11,9 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServiziRouteImport } from './routes/servizi'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as ContattiRouteImport } from './routes/contatti'
 import { Route as ClientiRouteImport } from './routes/clienti'
@@ -37,6 +39,11 @@ const ServiziRoute = ServiziRouteImport.update({
   path: '/servizi',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
@@ -50,6 +57,11 @@ const PortfolioRoute = PortfolioRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CookiesRoute = CookiesRouteImport.update({
@@ -121,9 +133,11 @@ export interface FileRoutesByFullPath {
   '/clienti': typeof ClientiRoute
   '/contatti': typeof ContattiRoute
   '/cookies': typeof CookiesRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/servizi': typeof ServiziRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/clienti': typeof AdminClientiRoute
@@ -139,9 +153,11 @@ export interface FileRoutesByTo {
   '/clienti': typeof ClientiRoute
   '/contatti': typeof ContattiRoute
   '/cookies': typeof CookiesRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/servizi': typeof ServiziRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/clienti': typeof AdminClientiRoute
@@ -159,9 +175,11 @@ export interface FileRoutesById {
   '/clienti': typeof ClientiRoute
   '/contatti': typeof ContattiRoute
   '/cookies': typeof CookiesRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/portfolio': typeof PortfolioRoute
   '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/servizi': typeof ServiziRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/clienti': typeof AdminClientiRoute
@@ -180,9 +198,11 @@ export interface FileRouteTypes {
     | '/clienti'
     | '/contatti'
     | '/cookies'
+    | '/forgot-password'
     | '/login'
     | '/portfolio'
     | '/privacy'
+    | '/reset-password'
     | '/servizi'
     | '/sitemap.xml'
     | '/admin/clienti'
@@ -198,9 +218,11 @@ export interface FileRouteTypes {
     | '/clienti'
     | '/contatti'
     | '/cookies'
+    | '/forgot-password'
     | '/login'
     | '/portfolio'
     | '/privacy'
+    | '/reset-password'
     | '/servizi'
     | '/sitemap.xml'
     | '/admin/clienti'
@@ -217,9 +239,11 @@ export interface FileRouteTypes {
     | '/clienti'
     | '/contatti'
     | '/cookies'
+    | '/forgot-password'
     | '/login'
     | '/portfolio'
     | '/privacy'
+    | '/reset-password'
     | '/servizi'
     | '/sitemap.xml'
     | '/admin/clienti'
@@ -237,9 +261,11 @@ export interface RootRouteChildren {
   ClientiRoute: typeof ClientiRoute
   ContattiRoute: typeof ContattiRoute
   CookiesRoute: typeof CookiesRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   PortfolioRoute: typeof PortfolioRoute
   PrivacyRoute: typeof PrivacyRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   ServiziRoute: typeof ServiziRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
@@ -258,6 +284,13 @@ declare module '@tanstack/react-router' {
       path: '/servizi'
       fullPath: '/servizi'
       preLoaderRoute: typeof ServiziRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -279,6 +312,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cookies': {
@@ -404,21 +444,14 @@ const rootRouteChildren: RootRouteChildren = {
   ClientiRoute: ClientiRoute,
   ContattiRoute: ContattiRoute,
   CookiesRoute: CookiesRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   PortfolioRoute: PortfolioRoute,
   PrivacyRoute: PrivacyRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   ServiziRoute: ServiziRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
