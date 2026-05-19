@@ -123,6 +123,15 @@ function LoginPage() {
               ? "Non hai un account? Registrati"
               : "Hai già un account? Accedi"}
           </button>
+
+          {mode === "signin" && (
+            <Link
+              to="/forgot-password"
+              className="mt-2 block text-center text-sm text-ink/70 underline-offset-4 hover:underline"
+            >
+              Password dimenticata?
+            </Link>
+          )}
         </div>
       </div>
     </div>
