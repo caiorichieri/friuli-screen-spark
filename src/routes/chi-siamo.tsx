@@ -20,8 +20,9 @@ export const Route = createFileRoute("/chi-siamo")({
         content:
           "Tradizione, innovazione e comunità: scopri chi siamo e perché abbiamo creato Friuli On.",
       },
-      { rel: "canonical", href: "https://friulion.it/chi-siamo" },
+      { property: "og:url", content: "https://friulion.it/chi-siamo" },
     ],
+    links: [{ rel: "canonical", href: "https://friulion.it/chi-siamo" }],
   }),
   component: ChiSiamoPage,
 });
