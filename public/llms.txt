@@ -1,0 +1,18 @@
+# Friuli On
+
+> Agenzia di comunicazione locale in Friuli Venezia Giulia: rete di monitor TV indoor in bar, farmacie e palestre, più servizi di marketing digitale (SEO, Google e Meta ADS, grafica, siti web e app).
+
+## Pages
+
+- [Home](/): Panoramica di Friuli On e del circuito di monitor indoor.
+- [Il Circuito](/circuito): Monitor TV indoor in 11 comuni del Friuli Venezia Giulia.
+- [Servizi](/servizi): SEO, grafica, volantini, siti web, app e monitor indoor.
+- [Chi Siamo](/chi-siamo): Storia, missione e valori di Friuli On.
+- [Portfolio](/portfolio): Progetti, campagne ed eventi realizzati.
+- [Clienti](/clienti): Aziende e attività che lavorano con Friuli On.
+- [Contatti](/contatti): Indirizzo, telefono, email e WhatsApp.
+
+## Optional
+
+- [Privacy Policy](/privacy)
+- [Cookie Policy](/cookies)
