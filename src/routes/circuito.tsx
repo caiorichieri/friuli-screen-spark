@@ -20,8 +20,9 @@ export const Route = createFileRoute("/circuito")({
         content:
           "11 comuni, decine di schermi nei luoghi più frequentati del Friuli. Scopri dove siamo presenti.",
       },
-      { rel: "canonical", href: "https://friulion.it/circuito" },
+      { property: "og:url", content: "https://friulion.it/circuito" },
     ],
+    links: [{ rel: "canonical", href: "https://friulion.it/circuito" }],
   }),
   component: CircuitoPage,
 });

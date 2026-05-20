@@ -58,11 +58,6 @@ export const Route = createRootRoute({
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Friuli On — Online. E nei luoghi che contano." },
-      {
-        name: "description",
-        content:
-          "Friuli On: rete di monitor TV indoor nei luoghi più frequentati del Friuli Venezia Giulia. Pubblicità locale accessibile, efficace e sostenibile.",
-      },
       { name: "author", content: "Friuli On" },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "it_IT" },

@@ -20,8 +20,9 @@ export const Route = createFileRoute("/servizi")({
         content:
           "Una soluzione completa per la tua comunicazione: SEO, grafica, volantini, siti web, app e monitor TV indoor in FVG.",
       },
-      { rel: "canonical", href: "https://friulion.it/servizi" },
+      { property: "og:url", content: "https://friulion.it/servizi" },
     ],
+    links: [{ rel: "canonical", href: "https://friulion.it/servizi" }],
   }),
   component: ServiziPage,
 });

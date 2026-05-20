@@ -20,8 +20,9 @@ export const Route = createFileRoute("/portfolio")({
         content:
           "Trasformiamo idee in realtà tangibili: scopri i nostri progetti e campagne in Friuli.",
       },
-      { rel: "canonical", href: "https://friulion.it/portfolio" },
+      { property: "og:url", content: "https://friulion.it/portfolio" },
     ],
+    links: [{ rel: "canonical", href: "https://friulion.it/portfolio" }],
   }),
   component: PortfolioPage,
 });

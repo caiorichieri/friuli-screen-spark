@@ -19,8 +19,9 @@ export const Route = createFileRoute("/contatti")({
         content:
           "Telefono, email e WhatsApp per parlare con il team di Friuli On a Codroipo.",
       },
-      { rel: "canonical", href: "https://friulion.it/contatti" },
+      { property: "og:url", content: "https://friulion.it/contatti" },
     ],
+    links: [{ rel: "canonical", href: "https://friulion.it/contatti" }],
   }),
   component: ContattiPage,
 });

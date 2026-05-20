@@ -13,19 +13,21 @@ import { CookieBanner } from "@/components/site/CookieBanner";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Friuli On — Pubblicità locale e monitor indoor in Friuli Venezia Giulia" },
+      { title: "Friuli On — Monitor TV indoor in Friuli VG" },
       {
         name: "description",
         content:
-          "Friuli On: rete di monitor TV indoor nei luoghi più frequentati del Friuli. Pubblicità locale accessibile, efficace e sostenibile a Codroipo, Lignano e altri 9 comuni.",
+          "Rete di monitor TV indoor nei luoghi più frequentati del Friuli Venezia Giulia. Pubblicità locale accessibile ed efficace.",
       },
-      { property: "og:title", content: "Friuli On — Monitor indoor in Friuli Venezia Giulia" },
+      { property: "og:title", content: "Friuli On — Monitor indoor in Friuli VG" },
       {
         property: "og:description",
         content:
-          "Una rete di monitor TV indoor in bar, farmacie e palestre del Friuli per dare visibilità alle attività locali.",
+          "Monitor TV indoor in bar, farmacie e palestre del Friuli per dare visibilità alle attività locali.",
       },
+      { property: "og:url", content: "https://friulion.it/" },
     ],
+    links: [{ rel: "canonical", href: "https://friulion.it/" }],
   }),
   component: Index,
 });
