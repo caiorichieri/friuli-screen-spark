@@ -56,22 +56,22 @@ export function ClientsMarquee() {
               "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
           }}
         >
-          <div className="flex w-max animate-marquee gap-12 group-hover:[animation-play-state:paused] md:gap-16">
+          <div className="flex w-max animate-marquee gap-12 hover:[animation-play-state:paused] group-hover:[animation-play-state:paused] md:gap-16">
             {loop.map((client, idx) => {
               const inner = client.logo_url ? (
                 <img
                   src={client.logo_url}
                   alt={client.name}
                   loading="lazy"
-                  className="max-h-full max-w-[160px] object-contain opacity-80 transition-opacity hover:opacity-100 md:max-w-[200px]"
+                  className="max-h-full max-w-[220px] object-contain opacity-80 transition-opacity hover:opacity-100 md:max-w-[280px]"
                 />
               ) : (
-                <span className="font-heading text-xl uppercase text-ink/70">{client.name}</span>
+                <span className="font-heading text-2xl uppercase text-ink/70">{client.name}</span>
               );
               return (
                 <div
                   key={`${client.id}-${idx}`}
-                  className="flex h-20 shrink-0 items-center justify-center md:h-24"
+                  className="flex h-32 shrink-0 items-center justify-center md:h-40"
                   title={client.name}
                 >
                   {client.website ? (
