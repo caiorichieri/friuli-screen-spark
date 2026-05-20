@@ -54,6 +54,8 @@ export function Hero() {
               alt="Monitor indoor in un bar tradizionale del Friuli"
               width={1024}
               height={1280}
+              fetchPriority="high"
+              decoding="async"
               className="aspect-[4/5] w-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-ink/60 to-transparent" />
