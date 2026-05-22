@@ -9,7 +9,13 @@ interface SitemapEntry {
   priority?: string;
 }
 
-const entries: SitemapEntry[] = [
+// NOTE: rotte escluse dalla sitemap (non indicizzabili):
+// /login, /forgot-password, /reset-password, /admin e tutte le sue sotto-rotte.
+// Per escludere una rotta, semplicemente non aggiungerla a questo array.
+const EXCLUDED_PATHS = ["/login", "/forgot-password", "/reset-password"] as const;
+const EXCLUDED_PREFIXES = ["/admin"] as const;
+
+const allEntries: SitemapEntry[] = [
   { path: "/", changefreq: "weekly", priority: "1.0" },
   { path: "/circuito", changefreq: "weekly", priority: "0.9" },
   { path: "/servizi", changefreq: "weekly", priority: "0.9" },
@@ -20,6 +26,12 @@ const entries: SitemapEntry[] = [
   { path: "/privacy", changefreq: "yearly", priority: "0.3" },
   { path: "/cookies", changefreq: "yearly", priority: "0.3" },
 ];
+
+const entries: SitemapEntry[] = allEntries.filter(
+  (e) =>
+    !EXCLUDED_PATHS.includes(e.path as (typeof EXCLUDED_PATHS)[number]) &&
+    !EXCLUDED_PREFIXES.some((prefix) => e.path === prefix || e.path.startsWith(`${prefix}/`)),
+);
 
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
