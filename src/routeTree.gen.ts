@@ -16,14 +16,17 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as ContattiRouteImport } from './routes/contatti'
 import { Route as ClientiRouteImport } from './routes/clienti'
 import { Route as CircuitoRouteImport } from './routes/circuito'
 import { Route as ChiSiamoRouteImport } from './routes/chi-siamo'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as SlugRouteImport } from './routes/$slug'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as LandingClientIdRouteImport } from './routes/landing.$clientId'
 import { Route as AdminServiziRouteImport } from './routes/admin.servizi'
 import { Route as AdminProgettiRouteImport } from './routes/admin.progetti'
 import { Route as AdminClientiRouteImport } from './routes/admin.clienti'
@@ -64,6 +67,11 @@ const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
   path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CookiesRoute = CookiesRouteImport.update({
   id: '/cookies',
   path: '/cookies',
@@ -94,6 +102,11 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SlugRoute = SlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -103,6 +116,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
+} as any)
+const LandingClientIdRoute = LandingClientIdRouteImport.update({
+  id: '/landing/$clientId',
+  path: '/landing/$clientId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminServiziRoute = AdminServiziRouteImport.update({
   id: '/servizi',
@@ -127,12 +145,14 @@ const AdminProgettiIdRoute = AdminProgettiIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$slug': typeof SlugRoute
   '/admin': typeof AdminRouteWithChildren
   '/chi-siamo': typeof ChiSiamoRoute
   '/circuito': typeof CircuitoRoute
   '/clienti': typeof ClientiRoute
   '/contatti': typeof ContattiRoute
   '/cookies': typeof CookiesRoute
+  '/dashboard': typeof DashboardRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/portfolio': typeof PortfolioRoute
@@ -143,16 +163,19 @@ export interface FileRoutesByFullPath {
   '/admin/clienti': typeof AdminClientiRoute
   '/admin/progetti': typeof AdminProgettiRouteWithChildren
   '/admin/servizi': typeof AdminServiziRoute
+  '/landing/$clientId': typeof LandingClientIdRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/progetti/$id': typeof AdminProgettiIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$slug': typeof SlugRoute
   '/chi-siamo': typeof ChiSiamoRoute
   '/circuito': typeof CircuitoRoute
   '/clienti': typeof ClientiRoute
   '/contatti': typeof ContattiRoute
   '/cookies': typeof CookiesRoute
+  '/dashboard': typeof DashboardRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/portfolio': typeof PortfolioRoute
@@ -163,18 +186,21 @@ export interface FileRoutesByTo {
   '/admin/clienti': typeof AdminClientiRoute
   '/admin/progetti': typeof AdminProgettiRouteWithChildren
   '/admin/servizi': typeof AdminServiziRoute
+  '/landing/$clientId': typeof LandingClientIdRoute
   '/admin': typeof AdminIndexRoute
   '/admin/progetti/$id': typeof AdminProgettiIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$slug': typeof SlugRoute
   '/admin': typeof AdminRouteWithChildren
   '/chi-siamo': typeof ChiSiamoRoute
   '/circuito': typeof CircuitoRoute
   '/clienti': typeof ClientiRoute
   '/contatti': typeof ContattiRoute
   '/cookies': typeof CookiesRoute
+  '/dashboard': typeof DashboardRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/portfolio': typeof PortfolioRoute
@@ -185,6 +211,7 @@ export interface FileRoutesById {
   '/admin/clienti': typeof AdminClientiRoute
   '/admin/progetti': typeof AdminProgettiRouteWithChildren
   '/admin/servizi': typeof AdminServiziRoute
+  '/landing/$clientId': typeof LandingClientIdRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/progetti/$id': typeof AdminProgettiIdRoute
 }
@@ -192,12 +219,14 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/$slug'
     | '/admin'
     | '/chi-siamo'
     | '/circuito'
     | '/clienti'
     | '/contatti'
     | '/cookies'
+    | '/dashboard'
     | '/forgot-password'
     | '/login'
     | '/portfolio'
@@ -208,16 +237,19 @@ export interface FileRouteTypes {
     | '/admin/clienti'
     | '/admin/progetti'
     | '/admin/servizi'
+    | '/landing/$clientId'
     | '/admin/'
     | '/admin/progetti/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/$slug'
     | '/chi-siamo'
     | '/circuito'
     | '/clienti'
     | '/contatti'
     | '/cookies'
+    | '/dashboard'
     | '/forgot-password'
     | '/login'
     | '/portfolio'
@@ -228,17 +260,20 @@ export interface FileRouteTypes {
     | '/admin/clienti'
     | '/admin/progetti'
     | '/admin/servizi'
+    | '/landing/$clientId'
     | '/admin'
     | '/admin/progetti/$id'
   id:
     | '__root__'
     | '/'
+    | '/$slug'
     | '/admin'
     | '/chi-siamo'
     | '/circuito'
     | '/clienti'
     | '/contatti'
     | '/cookies'
+    | '/dashboard'
     | '/forgot-password'
     | '/login'
     | '/portfolio'
@@ -249,18 +284,21 @@ export interface FileRouteTypes {
     | '/admin/clienti'
     | '/admin/progetti'
     | '/admin/servizi'
+    | '/landing/$clientId'
     | '/admin/'
     | '/admin/progetti/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SlugRoute: typeof SlugRoute
   AdminRoute: typeof AdminRouteWithChildren
   ChiSiamoRoute: typeof ChiSiamoRoute
   CircuitoRoute: typeof CircuitoRoute
   ClientiRoute: typeof ClientiRoute
   ContattiRoute: typeof ContattiRoute
   CookiesRoute: typeof CookiesRoute
+  DashboardRoute: typeof DashboardRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   PortfolioRoute: typeof PortfolioRoute
@@ -268,6 +306,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   ServiziRoute: typeof ServiziRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  LandingClientIdRoute: typeof LandingClientIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -321,6 +360,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cookies': {
       id: '/cookies'
       path: '/cookies'
@@ -363,6 +409,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$slug': {
+      id: '/$slug'
+      path: '/$slug'
+      fullPath: '/$slug'
+      preLoaderRoute: typeof SlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -376,6 +429,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/landing/$clientId': {
+      id: '/landing/$clientId'
+      path: '/landing/$clientId'
+      fullPath: '/landing/$clientId'
+      preLoaderRoute: typeof LandingClientIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/admin/servizi': {
       id: '/admin/servizi'
@@ -438,12 +498,14 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SlugRoute: SlugRoute,
   AdminRoute: AdminRouteWithChildren,
   ChiSiamoRoute: ChiSiamoRoute,
   CircuitoRoute: CircuitoRoute,
   ClientiRoute: ClientiRoute,
   ContattiRoute: ContattiRoute,
   CookiesRoute: CookiesRoute,
+  DashboardRoute: DashboardRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   PortfolioRoute: PortfolioRoute,
@@ -451,6 +513,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   ServiziRoute: ServiziRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  LandingClientIdRoute: LandingClientIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

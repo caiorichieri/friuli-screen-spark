@@ -18,7 +18,7 @@ export const Route = createFileRoute("/login")({
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { user, loading, signIn, signUp } = useAuth();
+  const { user, isAdmin, loading, signIn, signUp } = useAuth();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,9 +27,9 @@ function LoginPage() {
 
   useEffect(() => {
     if (!loading && user) {
-      void navigate({ to: "/admin" });
+      void navigate({ to: isAdmin ? "/admin" : "/dashboard" });
     }
-  }, [loading, user, navigate]);
+  }, [loading, user, isAdmin, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,7 +44,6 @@ function LoginPage() {
       toast.success("Account creato! Controlla la tua email per confermare.");
     } else {
       toast.success("Accesso effettuato");
-      void navigate({ to: "/admin" });
     }
   };
 

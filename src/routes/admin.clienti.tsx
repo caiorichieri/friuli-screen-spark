@@ -27,7 +27,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Plus, Pencil, Trash2, ExternalLink, ImagePlus } from "lucide-react";
+import { Plus, Pencil, Trash2, ExternalLink, ImagePlus, LayoutTemplate, UserPlus } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/admin/clienti")({
   head: () => ({
