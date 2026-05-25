@@ -26,6 +26,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as SlugRouteImport } from './routes/$slug'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as LandingClientIdRouteImport } from './routes/landing.$clientId'
 import { Route as AdminServiziRouteImport } from './routes/admin.servizi'
 import { Route as AdminProgettiRouteImport } from './routes/admin.progetti'
 import { Route as AdminClientiRouteImport } from './routes/admin.clienti'
@@ -116,6 +117,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const LandingClientIdRoute = LandingClientIdRouteImport.update({
+  id: '/landing/$clientId',
+  path: '/landing/$clientId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminServiziRoute = AdminServiziRouteImport.update({
   id: '/servizi',
   path: '/servizi',
@@ -157,6 +163,7 @@ export interface FileRoutesByFullPath {
   '/admin/clienti': typeof AdminClientiRoute
   '/admin/progetti': typeof AdminProgettiRouteWithChildren
   '/admin/servizi': typeof AdminServiziRoute
+  '/landing/$clientId': typeof LandingClientIdRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/progetti/$id': typeof AdminProgettiIdRoute
 }
@@ -179,6 +186,7 @@ export interface FileRoutesByTo {
   '/admin/clienti': typeof AdminClientiRoute
   '/admin/progetti': typeof AdminProgettiRouteWithChildren
   '/admin/servizi': typeof AdminServiziRoute
+  '/landing/$clientId': typeof LandingClientIdRoute
   '/admin': typeof AdminIndexRoute
   '/admin/progetti/$id': typeof AdminProgettiIdRoute
 }
@@ -203,6 +211,7 @@ export interface FileRoutesById {
   '/admin/clienti': typeof AdminClientiRoute
   '/admin/progetti': typeof AdminProgettiRouteWithChildren
   '/admin/servizi': typeof AdminServiziRoute
+  '/landing/$clientId': typeof LandingClientIdRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/progetti/$id': typeof AdminProgettiIdRoute
 }
@@ -228,6 +237,7 @@ export interface FileRouteTypes {
     | '/admin/clienti'
     | '/admin/progetti'
     | '/admin/servizi'
+    | '/landing/$clientId'
     | '/admin/'
     | '/admin/progetti/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -250,6 +260,7 @@ export interface FileRouteTypes {
     | '/admin/clienti'
     | '/admin/progetti'
     | '/admin/servizi'
+    | '/landing/$clientId'
     | '/admin'
     | '/admin/progetti/$id'
   id:
@@ -273,6 +284,7 @@ export interface FileRouteTypes {
     | '/admin/clienti'
     | '/admin/progetti'
     | '/admin/servizi'
+    | '/landing/$clientId'
     | '/admin/'
     | '/admin/progetti/$id'
   fileRoutesById: FileRoutesById
@@ -294,6 +306,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   ServiziRoute: typeof ServiziRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  LandingClientIdRoute: typeof LandingClientIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -417,6 +430,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/landing/$clientId': {
+      id: '/landing/$clientId'
+      path: '/landing/$clientId'
+      fullPath: '/landing/$clientId'
+      preLoaderRoute: typeof LandingClientIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/servizi': {
       id: '/admin/servizi'
       path: '/servizi'
@@ -493,6 +513,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   ServiziRoute: ServiziRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  LandingClientIdRoute: LandingClientIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
