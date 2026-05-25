@@ -63,7 +63,7 @@ export function ClientsMarquee() {
                   src={client.logo_url}
                   alt={client.name}
                   loading="lazy"
-                  className="max-h-full max-w-[220px] object-contain opacity-80 transition-opacity hover:opacity-100 md:max-w-[280px]"
+                  className="h-16 w-auto max-w-[200px] object-contain opacity-80 transition-opacity hover:opacity-100 md:h-20 md:max-w-[240px]"
                 />
               ) : (
                 <span className="font-heading text-2xl uppercase text-ink/70">{client.name}</span>
