@@ -48,18 +48,23 @@ export const Route = createFileRoute("/sitemap.xml")({
         try {
           const { data: landings } = await supabaseAdmin
             .from("client_landings")
-            .select("client_id, clients!inner(slug, is_public)")
+            .select("client_id")
             .eq("enabled", true);
-          for (const row of (landings ?? []) as Array<{
-            clients: { slug: string; is_public: boolean } | null;
-          }>) {
-            const slug = row.clients?.slug;
-            if (slug) {
-              dynamicEntries.push({
-                path: `/${slug}`,
-                changefreq: "weekly",
-                priority: "0.6",
-              });
+          const clientIds = (landings ?? []).map((l) => l.client_id);
+          if (clientIds.length) {
+            const { data: clients } = await supabaseAdmin
+              .from("clients")
+              .select("slug, is_public")
+              .in("id", clientIds)
+              .eq("is_public", true);
+            for (const c of clients ?? []) {
+              if (c.slug) {
+                dynamicEntries.push({
+                  path: `/${c.slug}`,
+                  changefreq: "weekly",
+                  priority: "0.6",
+                });
+              }
             }
           }
         } catch {
