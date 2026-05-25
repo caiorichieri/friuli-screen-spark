@@ -378,7 +378,7 @@ function AssignManagerDialog({
                     key={m.id}
                     className="flex items-center justify-between rounded border border-ink/20 px-2 py-1 text-sm"
                   >
-                    <span>{m.profiles?.email ?? m.user_id}</span>
+                    <span>{m.profile?.email ?? m.user_id}</span>
                     <Button
                       size="sm"
                       variant="ghost"
