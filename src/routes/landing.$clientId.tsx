@@ -93,7 +93,7 @@ function EditLandingPage() {
           clientId={client.id}
           clientSlug={client.slug}
           clientName={client.name}
-          landing={landing}
+          landing={landing ?? null}
         />
       </main>
     </div>
