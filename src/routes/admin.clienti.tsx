@@ -67,6 +67,7 @@ function AdminClientsPage() {
   const queryClient = useQueryClient();
   const [editing, setEditing] = useState<Client | null>(null);
   const [open, setOpen] = useState(false);
+  const [assigning, setAssigning] = useState<Client | null>(null);
 
   const { data: clients = [], isLoading } = useQuery({
     queryKey: ["admin", "clients"],
@@ -185,7 +186,20 @@ function AdminClientsPage() {
                   />
                   Pubblico
                 </label>
-                <div className="flex gap-1">
+                <div className="flex flex-wrap gap-1">
+                  <Button asChild size="icon" variant="ghost" title="Gestisci landing">
+                    <Link to="/landing/$clientId" params={{ clientId: client.id }}>
+                      <LayoutTemplate className="h-4 w-4" />
+                    </Link>
+                  </Button>
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    title="Assegna utente"
+                    onClick={() => setAssigning(client)}
+                  >
+                    <UserPlus className="h-4 w-4" />
+                  </Button>
                   <Button size="icon" variant="ghost" onClick={() => openEditor(client)}>
                     <Pencil className="h-4 w-4" />
                   </Button>
@@ -231,7 +245,156 @@ function AdminClientsPage() {
           void queryClient.invalidateQueries({ queryKey: ["admin", "stats"] });
         }}
       />
+
+      <AssignManagerDialog
+        client={assigning}
+        onOpenChange={(open) => !open && setAssigning(null)}
+      />
     </div>
+  );
+}
+
+function AssignManagerDialog({
+  client,
+  onOpenChange,
+}: {
+  client: Client | null;
+  onOpenChange: (open: boolean) => void;
+}) {
+  const [email, setEmail] = useState("");
+  const [saving, setSaving] = useState(false);
+  const queryClient = useQueryClient();
+
+  const { data: managers = [], refetch } = useQuery({
+    queryKey: ["client-managers", client?.id],
+    enabled: !!client,
+    queryFn: async () => {
+      const { data: rows, error } = await supabase
+        .from("client_managers")
+        .select("id, user_id, created_at")
+        .eq("client_id", client!.id);
+      if (error) throw error;
+      const userIds = (rows ?? []).map((r) => r.user_id);
+      let profilesMap = new Map<string, { email: string | null; display_name: string | null }>();
+      if (userIds.length) {
+        const { data: profs } = await supabase
+          .from("profiles")
+          .select("user_id, email, display_name")
+          .in("user_id", userIds);
+        profilesMap = new Map((profs ?? []).map((p) => [p.user_id, p]));
+      }
+      return (rows ?? []).map((r) => ({
+        ...r,
+        profile: profilesMap.get(r.user_id) ?? null,
+      }));
+    },
+  });
+
+  const handleAssign = async () => {
+    if (!client || !email.trim()) return;
+    setSaving(true);
+    try {
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .select("user_id")
+        .eq("email", email.trim().toLowerCase())
+        .maybeSingle();
+      if (profileError) throw profileError;
+      if (!profile) {
+        toast.error("Nessun utente trovato con questa email. Chiedi al cliente di registrarsi prima.");
+        return;
+      }
+
+      const { error: insertError } = await supabase
+        .from("client_managers")
+        .insert({ client_id: client.id, user_id: profile.user_id });
+      if (insertError && !insertError.message.includes("duplicate")) throw insertError;
+
+      // Ensure the user has the 'client' role
+      await supabase
+        .from("user_roles")
+        .insert({ user_id: profile.user_id, role: "client" as const });
+
+      toast.success("Utente assegnato");
+      setEmail("");
+      void refetch();
+      void queryClient.invalidateQueries({ queryKey: ["client-managers"] });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Errore");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleRemove = async (id: string) => {
+    const { error } = await supabase.from("client_managers").delete().eq("id", id);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("Rimosso");
+    void refetch();
+  };
+
+  return (
+    <Dialog open={!!client} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <DialogTitle>Assegna utente a {client?.name}</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="assign-email">Email utente registrato</Label>
+            <div className="flex gap-2">
+              <Input
+                id="assign-email"
+                type="email"
+                placeholder="cliente@esempio.it"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <Button
+                type="button"
+                onClick={handleAssign}
+                disabled={saving || !email.trim()}
+                className="bg-friuli-blue text-cream hover:bg-friuli-blue/90"
+              >
+                Assegna
+              </Button>
+            </div>
+            <p className="text-xs text-ink/60">
+              L'utente deve aver già creato un account su /login.
+            </p>
+          </div>
+
+          <div>
+            <p className="mb-2 text-sm font-medium">Utenti assegnati</p>
+            {managers.length === 0 ? (
+              <p className="text-xs text-ink/60">Nessuno ancora.</p>
+            ) : (
+              <ul className="space-y-1">
+                {managers.map((m) => (
+                  <li
+                    key={m.id}
+                    className="flex items-center justify-between rounded border border-ink/20 px-2 py-1 text-sm"
+                  >
+                    <span>{m.profile?.email ?? m.user_id}</span>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="text-destructive"
+                      onClick={() => handleRemove(m.id)}
+                    >
+                      <Trash2 className="h-3 w-3" />
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 

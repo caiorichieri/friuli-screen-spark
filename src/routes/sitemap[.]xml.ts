@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
+import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
 const BASE_URL = "https://friulion.it";
 
@@ -10,10 +11,15 @@ interface SitemapEntry {
 }
 
 // NOTE: rotte escluse dalla sitemap (non indicizzabili):
-// /login, /forgot-password, /reset-password, /admin e tutte le sue sotto-rotte.
-// Per escludere una rotta, semplicemente non aggiungerla a questo array.
-const EXCLUDED_PATHS = ["/login", "/forgot-password", "/reset-password"] as const;
-const EXCLUDED_PREFIXES = ["/admin"] as const;
+// /login, /forgot-password, /reset-password, /admin e tutte le sue sotto-rotte,
+// /dashboard, /landing/*. Per escludere una rotta, semplicemente non aggiungerla qui.
+const EXCLUDED_PATHS = [
+  "/login",
+  "/forgot-password",
+  "/reset-password",
+  "/dashboard",
+] as const;
+const EXCLUDED_PREFIXES = ["/admin", "/landing"] as const;
 
 const allEntries: SitemapEntry[] = [
   { path: "/", changefreq: "weekly", priority: "1.0" },
@@ -27,7 +33,7 @@ const allEntries: SitemapEntry[] = [
   { path: "/cookies", changefreq: "yearly", priority: "0.3" },
 ];
 
-const entries: SitemapEntry[] = allEntries.filter(
+const staticEntries: SitemapEntry[] = allEntries.filter(
   (e) =>
     !EXCLUDED_PATHS.includes(e.path as (typeof EXCLUDED_PATHS)[number]) &&
     !EXCLUDED_PREFIXES.some((prefix) => e.path === prefix || e.path.startsWith(`${prefix}/`)),
@@ -37,6 +43,36 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
+        // Fetch published client landings (enabled = true) with their slugs
+        const dynamicEntries: SitemapEntry[] = [];
+        try {
+          const { data: landings } = await supabaseAdmin
+            .from("client_landings")
+            .select("client_id")
+            .eq("enabled", true);
+          const clientIds = (landings ?? []).map((l) => l.client_id);
+          if (clientIds.length) {
+            const { data: clients } = await supabaseAdmin
+              .from("clients")
+              .select("slug, is_public")
+              .in("id", clientIds)
+              .eq("is_public", true);
+            for (const c of clients ?? []) {
+              if (c.slug) {
+                dynamicEntries.push({
+                  path: `/${c.slug}`,
+                  changefreq: "weekly",
+                  priority: "0.6",
+                });
+              }
+            }
+          }
+        } catch {
+          // fail open: still return static sitemap if DB fetch fails
+        }
+
+        const entries = [...staticEntries, ...dynamicEntries];
+
         const urls = entries.map((e) =>
           [
             `  <url>`,
@@ -66,3 +102,4 @@ export const Route = createFileRoute("/sitemap.xml")({
     },
   },
 });
+
