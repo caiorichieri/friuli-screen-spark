@@ -16,6 +16,7 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as ContattiRouteImport } from './routes/contatti'
 import { Route as ClientiRouteImport } from './routes/clienti'
@@ -63,6 +64,11 @@ const LoginRoute = LoginRouteImport.update({
 const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CookiesRoute = CookiesRouteImport.update({
@@ -140,6 +146,7 @@ export interface FileRoutesByFullPath {
   '/clienti': typeof ClientiRoute
   '/contatti': typeof ContattiRoute
   '/cookies': typeof CookiesRoute
+  '/dashboard': typeof DashboardRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/portfolio': typeof PortfolioRoute
@@ -161,6 +168,7 @@ export interface FileRoutesByTo {
   '/clienti': typeof ClientiRoute
   '/contatti': typeof ContattiRoute
   '/cookies': typeof CookiesRoute
+  '/dashboard': typeof DashboardRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/portfolio': typeof PortfolioRoute
@@ -184,6 +192,7 @@ export interface FileRoutesById {
   '/clienti': typeof ClientiRoute
   '/contatti': typeof ContattiRoute
   '/cookies': typeof CookiesRoute
+  '/dashboard': typeof DashboardRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/portfolio': typeof PortfolioRoute
@@ -208,6 +217,7 @@ export interface FileRouteTypes {
     | '/clienti'
     | '/contatti'
     | '/cookies'
+    | '/dashboard'
     | '/forgot-password'
     | '/login'
     | '/portfolio'
@@ -229,6 +239,7 @@ export interface FileRouteTypes {
     | '/clienti'
     | '/contatti'
     | '/cookies'
+    | '/dashboard'
     | '/forgot-password'
     | '/login'
     | '/portfolio'
@@ -251,6 +262,7 @@ export interface FileRouteTypes {
     | '/clienti'
     | '/contatti'
     | '/cookies'
+    | '/dashboard'
     | '/forgot-password'
     | '/login'
     | '/portfolio'
@@ -274,6 +286,7 @@ export interface RootRouteChildren {
   ClientiRoute: typeof ClientiRoute
   ContattiRoute: typeof ContattiRoute
   CookiesRoute: typeof CookiesRoute
+  DashboardRoute: typeof DashboardRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   PortfolioRoute: typeof PortfolioRoute
@@ -332,6 +345,13 @@ declare module '@tanstack/react-router' {
       path: '/forgot-password'
       fullPath: '/forgot-password'
       preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cookies': {
@@ -465,6 +485,7 @@ const rootRouteChildren: RootRouteChildren = {
   ClientiRoute: ClientiRoute,
   ContattiRoute: ContattiRoute,
   CookiesRoute: CookiesRoute,
+  DashboardRoute: DashboardRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   PortfolioRoute: PortfolioRoute,
@@ -476,3 +497,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
