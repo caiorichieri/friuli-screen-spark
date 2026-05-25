@@ -22,6 +22,7 @@ import { Route as ClientiRouteImport } from './routes/clienti'
 import { Route as CircuitoRouteImport } from './routes/circuito'
 import { Route as ChiSiamoRouteImport } from './routes/chi-siamo'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as SlugRouteImport } from './routes/$slug'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminServiziRouteImport } from './routes/admin.servizi'
@@ -94,6 +95,11 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SlugRoute = SlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -127,6 +133,7 @@ const AdminProgettiIdRoute = AdminProgettiIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$slug': typeof SlugRoute
   '/admin': typeof AdminRouteWithChildren
   '/chi-siamo': typeof ChiSiamoRoute
   '/circuito': typeof CircuitoRoute
@@ -148,6 +155,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$slug': typeof SlugRoute
   '/chi-siamo': typeof ChiSiamoRoute
   '/circuito': typeof CircuitoRoute
   '/clienti': typeof ClientiRoute
@@ -169,6 +177,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$slug': typeof SlugRoute
   '/admin': typeof AdminRouteWithChildren
   '/chi-siamo': typeof ChiSiamoRoute
   '/circuito': typeof CircuitoRoute
@@ -192,6 +201,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/$slug'
     | '/admin'
     | '/chi-siamo'
     | '/circuito'
@@ -213,6 +223,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/$slug'
     | '/chi-siamo'
     | '/circuito'
     | '/clienti'
@@ -233,6 +244,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/$slug'
     | '/admin'
     | '/chi-siamo'
     | '/circuito'
@@ -255,6 +267,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SlugRoute: typeof SlugRoute
   AdminRoute: typeof AdminRouteWithChildren
   ChiSiamoRoute: typeof ChiSiamoRoute
   CircuitoRoute: typeof CircuitoRoute
@@ -363,6 +376,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$slug': {
+      id: '/$slug'
+      path: '/$slug'
+      fullPath: '/$slug'
+      preLoaderRoute: typeof SlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -438,6 +458,7 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SlugRoute: SlugRoute,
   AdminRoute: AdminRouteWithChildren,
   ChiSiamoRoute: ChiSiamoRoute,
   CircuitoRoute: CircuitoRoute,
@@ -455,3 +476,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
