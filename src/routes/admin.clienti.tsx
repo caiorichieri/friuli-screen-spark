@@ -67,6 +67,7 @@ function AdminClientsPage() {
   const queryClient = useQueryClient();
   const [editing, setEditing] = useState<Client | null>(null);
   const [open, setOpen] = useState(false);
+  const [assigning, setAssigning] = useState<Client | null>(null);
 
   const { data: clients = [], isLoading } = useQuery({
     queryKey: ["admin", "clients"],
