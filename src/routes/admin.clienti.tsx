@@ -269,17 +269,24 @@ function AssignManagerDialog({
     queryKey: ["client-managers", client?.id],
     enabled: !!client,
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data: rows, error } = await supabase
         .from("client_managers")
-        .select("id, user_id, created_at, profiles:profiles!inner(email, display_name)")
+        .select("id, user_id, created_at")
         .eq("client_id", client!.id);
       if (error) throw error;
-      return data as Array<{
-        id: string;
-        user_id: string;
-        created_at: string;
-        profiles: { email: string | null; display_name: string | null } | null;
-      }>;
+      const userIds = (rows ?? []).map((r) => r.user_id);
+      let profilesMap = new Map<string, { email: string | null; display_name: string | null }>();
+      if (userIds.length) {
+        const { data: profs } = await supabase
+          .from("profiles")
+          .select("user_id, email, display_name")
+          .in("user_id", userIds);
+        profilesMap = new Map((profs ?? []).map((p) => [p.user_id, p]));
+      }
+      return (rows ?? []).map((r) => ({
+        ...r,
+        profile: profilesMap.get(r.user_id) ?? null,
+      }));
     },
   });
 
