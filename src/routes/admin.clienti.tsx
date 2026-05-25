@@ -245,7 +245,149 @@ function AdminClientsPage() {
           void queryClient.invalidateQueries({ queryKey: ["admin", "stats"] });
         }}
       />
+
+      <AssignManagerDialog
+        client={assigning}
+        onOpenChange={(open) => !open && setAssigning(null)}
+      />
     </div>
+  );
+}
+
+function AssignManagerDialog({
+  client,
+  onOpenChange,
+}: {
+  client: Client | null;
+  onOpenChange: (open: boolean) => void;
+}) {
+  const [email, setEmail] = useState("");
+  const [saving, setSaving] = useState(false);
+  const queryClient = useQueryClient();
+
+  const { data: managers = [], refetch } = useQuery({
+    queryKey: ["client-managers", client?.id],
+    enabled: !!client,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("client_managers")
+        .select("id, user_id, created_at, profiles:profiles!inner(email, display_name)")
+        .eq("client_id", client!.id);
+      if (error) throw error;
+      return data as Array<{
+        id: string;
+        user_id: string;
+        created_at: string;
+        profiles: { email: string | null; display_name: string | null } | null;
+      }>;
+    },
+  });
+
+  const handleAssign = async () => {
+    if (!client || !email.trim()) return;
+    setSaving(true);
+    try {
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .select("user_id")
+        .eq("email", email.trim().toLowerCase())
+        .maybeSingle();
+      if (profileError) throw profileError;
+      if (!profile) {
+        toast.error("Nessun utente trovato con questa email. Chiedi al cliente di registrarsi prima.");
+        return;
+      }
+
+      const { error: insertError } = await supabase
+        .from("client_managers")
+        .insert({ client_id: client.id, user_id: profile.user_id });
+      if (insertError && !insertError.message.includes("duplicate")) throw insertError;
+
+      // Ensure the user has the 'client' role
+      await supabase
+        .from("user_roles")
+        .insert({ user_id: profile.user_id, role: "client" as const });
+
+      toast.success("Utente assegnato");
+      setEmail("");
+      void refetch();
+      void queryClient.invalidateQueries({ queryKey: ["client-managers"] });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Errore");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleRemove = async (id: string) => {
+    const { error } = await supabase.from("client_managers").delete().eq("id", id);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("Rimosso");
+    void refetch();
+  };
+
+  return (
+    <Dialog open={!!client} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <DialogTitle>Assegna utente a {client?.name}</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="assign-email">Email utente registrato</Label>
+            <div className="flex gap-2">
+              <Input
+                id="assign-email"
+                type="email"
+                placeholder="cliente@esempio.it"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <Button
+                type="button"
+                onClick={handleAssign}
+                disabled={saving || !email.trim()}
+                className="bg-friuli-blue text-cream hover:bg-friuli-blue/90"
+              >
+                Assegna
+              </Button>
+            </div>
+            <p className="text-xs text-ink/60">
+              L'utente deve aver già creato un account su /login.
+            </p>
+          </div>
+
+          <div>
+            <p className="mb-2 text-sm font-medium">Utenti assegnati</p>
+            {managers.length === 0 ? (
+              <p className="text-xs text-ink/60">Nessuno ancora.</p>
+            ) : (
+              <ul className="space-y-1">
+                {managers.map((m) => (
+                  <li
+                    key={m.id}
+                    className="flex items-center justify-between rounded border border-ink/20 px-2 py-1 text-sm"
+                  >
+                    <span>{m.profiles?.email ?? m.user_id}</span>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="text-destructive"
+                      onClick={() => handleRemove(m.id)}
+                    >
+                      <Trash2 className="h-3 w-3" />
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 
