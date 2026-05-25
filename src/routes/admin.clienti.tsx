@@ -185,7 +185,20 @@ function AdminClientsPage() {
                   />
                   Pubblico
                 </label>
-                <div className="flex gap-1">
+                <div className="flex flex-wrap gap-1">
+                  <Button asChild size="icon" variant="ghost" title="Gestisci landing">
+                    <Link to="/landing/$clientId" params={{ clientId: client.id }}>
+                      <LayoutTemplate className="h-4 w-4" />
+                    </Link>
+                  </Button>
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    title="Assegna utente"
+                    onClick={() => setAssigning(client)}
+                  >
+                    <UserPlus className="h-4 w-4" />
+                  </Button>
                   <Button size="icon" variant="ghost" onClick={() => openEditor(client)}>
                     <Pencil className="h-4 w-4" />
                   </Button>
