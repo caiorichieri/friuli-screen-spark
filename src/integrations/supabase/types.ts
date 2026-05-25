@@ -14,6 +14,105 @@ export type Database = {
   }
   public: {
     Tables: {
+      client_landings: {
+        Row: {
+          accent_color: string
+          avatar_url: string | null
+          client_id: string
+          cover_image_url: string | null
+          created_at: string
+          enabled: boolean
+          gallery: Json
+          id: string
+          intro_text: string | null
+          intro_title: string | null
+          links: Json
+          updated_at: string
+          video_url: string | null
+        }
+        Insert: {
+          accent_color?: string
+          avatar_url?: string | null
+          client_id: string
+          cover_image_url?: string | null
+          created_at?: string
+          enabled?: boolean
+          gallery?: Json
+          id?: string
+          intro_text?: string | null
+          intro_title?: string | null
+          links?: Json
+          updated_at?: string
+          video_url?: string | null
+        }
+        Update: {
+          accent_color?: string
+          avatar_url?: string | null
+          client_id?: string
+          cover_image_url?: string | null
+          created_at?: string
+          enabled?: boolean
+          gallery?: Json
+          id?: string
+          intro_text?: string | null
+          intro_title?: string | null
+          links?: Json
+          updated_at?: string
+          video_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_landings_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: true
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_landings_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: true
+            referencedRelation: "clients_public"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      client_managers: {
+        Row: {
+          client_id: string
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_managers_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_managers_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients_public"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       clients: {
         Row: {
           created_at: string
@@ -437,9 +536,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_client_manager: { Args: { _client_id: string }; Returns: boolean }
     }
     Enums: {
-      app_role: "admin" | "editor" | "user"
+      app_role: "admin" | "editor" | "user" | "client"
       payment_status: "da_pagare" | "pagato" | "in_ritardo"
       project_status: "richiesto" | "in_corso" | "completato" | "archiviato"
     }
@@ -569,7 +669,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "editor", "user"],
+      app_role: ["admin", "editor", "user", "client"],
       payment_status: ["da_pagare", "pagato", "in_ritardo"],
       project_status: ["richiesto", "in_corso", "completato", "archiviato"],
     },
