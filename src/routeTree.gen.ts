@@ -27,6 +27,7 @@ import { Route as SlugRouteImport } from './routes/$slug'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as LandingClientIdRouteImport } from './routes/landing.$clientId'
+import { Route as DownloadAppRouteImport } from './routes/download.app'
 import { Route as AdminServiziRouteImport } from './routes/admin.servizi'
 import { Route as AdminProgettiRouteImport } from './routes/admin.progetti'
 import { Route as AdminClientiRouteImport } from './routes/admin.clienti'
@@ -122,6 +123,11 @@ const LandingClientIdRoute = LandingClientIdRouteImport.update({
   path: '/landing/$clientId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DownloadAppRoute = DownloadAppRouteImport.update({
+  id: '/download/app',
+  path: '/download/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminServiziRoute = AdminServiziRouteImport.update({
   id: '/servizi',
   path: '/servizi',
@@ -163,6 +169,7 @@ export interface FileRoutesByFullPath {
   '/admin/clienti': typeof AdminClientiRoute
   '/admin/progetti': typeof AdminProgettiRouteWithChildren
   '/admin/servizi': typeof AdminServiziRoute
+  '/download/app': typeof DownloadAppRoute
   '/landing/$clientId': typeof LandingClientIdRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/progetti/$id': typeof AdminProgettiIdRoute
@@ -186,6 +193,7 @@ export interface FileRoutesByTo {
   '/admin/clienti': typeof AdminClientiRoute
   '/admin/progetti': typeof AdminProgettiRouteWithChildren
   '/admin/servizi': typeof AdminServiziRoute
+  '/download/app': typeof DownloadAppRoute
   '/landing/$clientId': typeof LandingClientIdRoute
   '/admin': typeof AdminIndexRoute
   '/admin/progetti/$id': typeof AdminProgettiIdRoute
@@ -211,6 +219,7 @@ export interface FileRoutesById {
   '/admin/clienti': typeof AdminClientiRoute
   '/admin/progetti': typeof AdminProgettiRouteWithChildren
   '/admin/servizi': typeof AdminServiziRoute
+  '/download/app': typeof DownloadAppRoute
   '/landing/$clientId': typeof LandingClientIdRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/progetti/$id': typeof AdminProgettiIdRoute
@@ -237,6 +246,7 @@ export interface FileRouteTypes {
     | '/admin/clienti'
     | '/admin/progetti'
     | '/admin/servizi'
+    | '/download/app'
     | '/landing/$clientId'
     | '/admin/'
     | '/admin/progetti/$id'
@@ -260,6 +270,7 @@ export interface FileRouteTypes {
     | '/admin/clienti'
     | '/admin/progetti'
     | '/admin/servizi'
+    | '/download/app'
     | '/landing/$clientId'
     | '/admin'
     | '/admin/progetti/$id'
@@ -284,6 +295,7 @@ export interface FileRouteTypes {
     | '/admin/clienti'
     | '/admin/progetti'
     | '/admin/servizi'
+    | '/download/app'
     | '/landing/$clientId'
     | '/admin/'
     | '/admin/progetti/$id'
@@ -306,6 +318,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   ServiziRoute: typeof ServiziRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  DownloadAppRoute: typeof DownloadAppRoute
   LandingClientIdRoute: typeof LandingClientIdRoute
 }
 
@@ -437,6 +450,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LandingClientIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/download/app': {
+      id: '/download/app'
+      path: '/download/app'
+      fullPath: '/download/app'
+      preLoaderRoute: typeof DownloadAppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/servizi': {
       id: '/admin/servizi'
       path: '/servizi'
@@ -513,6 +533,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   ServiziRoute: ServiziRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  DownloadAppRoute: DownloadAppRoute,
   LandingClientIdRoute: LandingClientIdRoute,
 }
 export const routeTree = rootRouteImport
