@@ -22,6 +22,7 @@ import { Route as ContattiRouteImport } from './routes/contatti'
 import { Route as ClientiRouteImport } from './routes/clienti'
 import { Route as CircuitoRouteImport } from './routes/circuito'
 import { Route as ChiSiamoRouteImport } from './routes/chi-siamo'
+import { Route as AppDotapkRouteImport } from './routes/app[.]apk'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as SlugRouteImport } from './routes/$slug'
 import { Route as IndexRouteImport } from './routes/index'
@@ -98,6 +99,11 @@ const ChiSiamoRoute = ChiSiamoRouteImport.update({
   path: '/chi-siamo',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppDotapkRoute = AppDotapkRouteImport.update({
+  id: '/app.apk',
+  path: '/app.apk',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -153,6 +159,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$slug': typeof SlugRoute
   '/admin': typeof AdminRouteWithChildren
+  '/app.apk': typeof AppDotapkRoute
   '/chi-siamo': typeof ChiSiamoRoute
   '/circuito': typeof CircuitoRoute
   '/clienti': typeof ClientiRoute
@@ -177,6 +184,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$slug': typeof SlugRoute
+  '/app.apk': typeof AppDotapkRoute
   '/chi-siamo': typeof ChiSiamoRoute
   '/circuito': typeof CircuitoRoute
   '/clienti': typeof ClientiRoute
@@ -203,6 +211,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/$slug': typeof SlugRoute
   '/admin': typeof AdminRouteWithChildren
+  '/app.apk': typeof AppDotapkRoute
   '/chi-siamo': typeof ChiSiamoRoute
   '/circuito': typeof CircuitoRoute
   '/clienti': typeof ClientiRoute
@@ -230,6 +239,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$slug'
     | '/admin'
+    | '/app.apk'
     | '/chi-siamo'
     | '/circuito'
     | '/clienti'
@@ -254,6 +264,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/$slug'
+    | '/app.apk'
     | '/chi-siamo'
     | '/circuito'
     | '/clienti'
@@ -279,6 +290,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$slug'
     | '/admin'
+    | '/app.apk'
     | '/chi-siamo'
     | '/circuito'
     | '/clienti'
@@ -305,6 +317,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SlugRoute: typeof SlugRoute
   AdminRoute: typeof AdminRouteWithChildren
+  AppDotapkRoute: typeof AppDotapkRoute
   ChiSiamoRoute: typeof ChiSiamoRoute
   CircuitoRoute: typeof CircuitoRoute
   ClientiRoute: typeof ClientiRoute
@@ -415,6 +428,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChiSiamoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app.apk': {
+      id: '/app.apk'
+      path: '/app.apk'
+      fullPath: '/app.apk'
+      preLoaderRoute: typeof AppDotapkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin': {
       id: '/admin'
       path: '/admin'
@@ -520,6 +540,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SlugRoute: SlugRoute,
   AdminRoute: AdminRouteWithChildren,
+  AppDotapkRoute: AppDotapkRoute,
   ChiSiamoRoute: ChiSiamoRoute,
   CircuitoRoute: CircuitoRoute,
   ClientiRoute: ClientiRoute,
