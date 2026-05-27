@@ -109,7 +109,7 @@ export function Portfolio() {
             <p className="mt-2 text-sm text-ink/60">Stiamo preparando il portfolio.</p>
           </div>
         ) : (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 md:gap-5 md:grid-cols-3 lg:grid-cols-4">
             {filtered.map((p) => {
               const cat = categories.find((c) => c.id === p.portfolio_category_id);
               const cover = p.cover_image_url;
@@ -118,8 +118,8 @@ export function Portfolio() {
                   key={p.id}
                   type="button"
                   onClick={() => setLightbox({ projectId: p.id, index: 0 })}
-                  className="group relative flex aspect-[4/5] flex-col justify-between overflow-hidden rounded-3xl border-2 border-ink bg-cream p-6 text-left transition-all hover:-translate-y-2"
-                  style={{ boxShadow: "var(--shadow-brutal-lg)" }}
+                  className="group relative flex aspect-[4/5] flex-col justify-between overflow-hidden rounded-2xl border-2 border-ink bg-cream p-4 text-left transition-all hover:-translate-y-2"
+                  style={{ boxShadow: "var(--shadow-brutal)" }}
                 >
                   {cover && (
                     <img
@@ -155,7 +155,7 @@ export function Portfolio() {
                   </div>
                   <div className="relative z-10">
                     <h3
-                      className={`font-heading text-3xl uppercase leading-none ${
+                      className={`font-heading text-xl uppercase leading-tight md:text-2xl ${
                         cover ? "text-cream" : "text-ink"
                       }`}
                     >
@@ -163,7 +163,7 @@ export function Portfolio() {
                     </h3>
                     {p.clients?.name && (
                       <p
-                        className={`mt-1 text-sm ${
+                        className={`mt-1 text-xs ${
                           cover ? "text-cream/80" : "text-ink/60"
                         }`}
                       >
@@ -171,11 +171,11 @@ export function Portfolio() {
                       </p>
                     )}
                     <div
-                      className={`mt-4 flex size-10 items-center justify-center rounded-full border-2 transition-transform group-hover:rotate-45 ${
+                      className={`mt-3 flex size-8 items-center justify-center rounded-full border-2 transition-transform group-hover:rotate-45 ${
                         cover ? "border-cream text-cream" : "border-ink text-ink"
                       }`}
                     >
-                      <span>↗</span>
+                      <span className="text-sm">↗</span>
                     </div>
                   </div>
                 </button>
