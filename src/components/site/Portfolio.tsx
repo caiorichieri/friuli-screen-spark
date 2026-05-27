@@ -155,7 +155,7 @@ export function Portfolio() {
                   </div>
                   <div className="relative z-10">
                     <h3
-                      className={`font-heading text-3xl uppercase leading-none ${
+                      className={`font-heading text-xl uppercase leading-tight md:text-2xl ${
                         cover ? "text-cream" : "text-ink"
                       }`}
                     >
@@ -163,7 +163,7 @@ export function Portfolio() {
                     </h3>
                     {p.clients?.name && (
                       <p
-                        className={`mt-1 text-sm ${
+                        className={`mt-1 text-xs ${
                           cover ? "text-cream/80" : "text-ink/60"
                         }`}
                       >
@@ -171,11 +171,11 @@ export function Portfolio() {
                       </p>
                     )}
                     <div
-                      className={`mt-4 flex size-10 items-center justify-center rounded-full border-2 transition-transform group-hover:rotate-45 ${
+                      className={`mt-3 flex size-8 items-center justify-center rounded-full border-2 transition-transform group-hover:rotate-45 ${
                         cover ? "border-cream text-cream" : "border-ink text-ink"
                       }`}
                     >
-                      <span>↗</span>
+                      <span className="text-sm">↗</span>
                     </div>
                   </div>
                 </button>
