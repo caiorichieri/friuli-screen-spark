@@ -18,11 +18,9 @@ export const Route = createFileRoute("/login")({
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { user, isAdmin, loading, signIn, signUp } = useAuth();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const { user, isAdmin, loading, signIn } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [displayName, setDisplayName] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
@@ -34,14 +32,10 @@ function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    const result = mode === "signin"
-      ? await signIn(email, password)
-      : await signUp(email, password, displayName);
+    const result = await signIn(email, password);
     setSubmitting(false);
     if (result.error) {
       toast.error(result.error);
-    } else if (mode === "signup") {
-      toast.success("Account creato! Controlla la tua email per confermare.");
     } else {
       toast.success("Accesso effettuato");
     }
@@ -58,28 +52,12 @@ function LoginPage() {
           className="rounded-3xl border-2 border-ink bg-cream p-8"
           style={{ boxShadow: "var(--shadow-brutal-lg)" }}
         >
-          <h1 className="font-heading text-3xl uppercase">
-            {mode === "signin" ? "Accedi" : "Registrati"}
-          </h1>
+          <h1 className="font-heading text-3xl uppercase">Accedi</h1>
           <p className="mt-2 text-sm text-ink/70">
-            {mode === "signin"
-              ? "Accedi al pannello di gestione."
-              : "Il primo utente registrato diventa admin."}
+            Accedi al pannello di gestione. L'accesso è riservato.
           </p>
 
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-            {mode === "signup" && (
-              <div className="space-y-2">
-                <Label htmlFor="display_name">Nome</Label>
-                <Input
-                  id="display_name"
-                  type="text"
-                  value={displayName}
-                  onChange={(e) => setDisplayName(e.target.value)}
-                  placeholder="Mario Rossi"
-                />
-              </div>
-            )}
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -109,28 +87,16 @@ function LoginPage() {
               disabled={submitting}
               className="w-full bg-friuli-blue text-cream hover:bg-friuli-blue/90"
             >
-              {submitting ? "Attendere..." : mode === "signin" ? "Accedi" : "Registrati"}
+              {submitting ? "Attendere..." : "Accedi"}
             </Button>
           </form>
 
-          <button
-            type="button"
-            onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-            className="mt-4 w-full text-center text-sm text-friuli-blue underline-offset-4 hover:underline"
+          <Link
+            to="/forgot-password"
+            className="mt-4 block text-center text-sm text-ink/70 underline-offset-4 hover:underline"
           >
-            {mode === "signin"
-              ? "Non hai un account? Registrati"
-              : "Hai già un account? Accedi"}
-          </button>
-
-          {mode === "signin" && (
-            <Link
-              to="/forgot-password"
-              className="mt-2 block text-center text-sm text-ink/70 underline-offset-4 hover:underline"
-            >
-              Password dimenticata?
-            </Link>
-          )}
+            Password dimenticata?
+          </Link>
         </div>
       </div>
     </div>
