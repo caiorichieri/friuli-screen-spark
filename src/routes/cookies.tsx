@@ -67,23 +67,61 @@ function CookiesPage() {
               </div>
 
               <div className="rounded-2xl border-2 border-ink bg-cream p-5">
-                <h3 className="font-heading text-lg uppercase">Cookie analitici</h3>
+                <h3 className="font-heading text-lg uppercase">Cookie analitici di terze parti</h3>
                 <p className="mt-2 text-sm">
-                  Utilizzati per raccogliere informazioni aggregate e anonime sull'utilizzo
-                  del sito (pagine visitate, tempo trascorso, tipo di dispositivo). Vengono
-                  installati solo previo consenso esplicito.
+                  Utilizzati per raccogliere informazioni aggregate sull'utilizzo del sito.
+                  Vengono installati solo previo consenso esplicito.
                 </p>
+                <ul className="mt-3 space-y-2 text-sm">
+                  <li>
+                    <strong>Google Analytics 4</strong> (Google Ireland Ltd.) — finalità:
+                    statistiche di navigazione. Durata: fino a 14 mesi. Privacy policy:{" "}
+                    <a className="underline" href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">
+                      policies.google.com/privacy
+                    </a>
+                  </li>
+                </ul>
               </div>
 
               <div className="rounded-2xl border-2 border-ink bg-cream p-5">
-                <h3 className="font-heading text-lg uppercase">Cookie di marketing</h3>
+                <h3 className="font-heading text-lg uppercase">Cookie di marketing e profilazione</h3>
                 <p className="mt-2 text-sm">
                   Utilizzati per profilare l'utente e mostrare contenuti pubblicitari in
                   linea con i suoi interessi. Vengono installati solo previo consenso
                   esplicito.
                 </p>
+                <ul className="mt-3 space-y-2 text-sm">
+                  <li>
+                    <strong>Meta Pixel</strong> (Meta Platforms Ireland Ltd.) — finalità:
+                    remarketing e misurazione campagne Facebook/Instagram. Durata: fino a
+                    13 mesi. Privacy policy:{" "}
+                    <a className="underline" href="https://www.facebook.com/privacy/policy" target="_blank" rel="noreferrer">
+                      facebook.com/privacy/policy
+                    </a>
+                  </li>
+                  <li>
+                    <strong>Google Ads</strong> (Google Ireland Ltd.) — finalità:
+                    remarketing e conversioni. Durata: fino a 13 mesi. Privacy policy:{" "}
+                    <a className="underline" href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">
+                      policies.google.com/privacy
+                    </a>
+                  </li>
+                  <li>
+                    <strong>YouTube</strong> (Google Ireland Ltd.) — incorporato per video.
+                    Privacy policy:{" "}
+                    <a className="underline" href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">
+                      policies.google.com/privacy
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
+
+            <p className="mt-4 text-xs text-ink/60">
+              I dati raccolti da questi strumenti possono essere trasferiti verso paesi
+              extra-UE (USA) sulla base delle Standard Contractual Clauses approvate dalla
+              Commissione Europea e del EU-US Data Privacy Framework.
+            </p>
           </section>
 
           <section>
