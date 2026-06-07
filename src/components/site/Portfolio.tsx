@@ -216,9 +216,9 @@ export function Portfolio() {
                   </>
                 )}
               </div>
-              {(lightboxProject.public_summary || lightboxProject.description) && (
+              {lightboxProject.public_summary && (
                 <p className="mt-2 max-w-2xl text-sm text-cream/80">
-                  {lightboxProject.public_summary ?? lightboxProject.description}
+                  {lightboxProject.public_summary}
                 </p>
               )}
               {lightboxProject.tags.length > 0 && (

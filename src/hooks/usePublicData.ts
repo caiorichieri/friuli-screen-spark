@@ -92,17 +92,17 @@ export function usePublicProjects() {
     queryKey: ["projects", "public"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("projects")
+        .from("projects_public" as never)
         .select(
-          "id, title, slug, cover_image_url, gallery, year, tags, external_url, portfolio_category_id, public_summary, description, public_sort_order, client_id, clients(name)",
+          "id, title, slug, cover_image_url, gallery, year, tags, external_url, portfolio_category_id, public_summary, public_sort_order, client_id, client_name",
         )
-        .eq("is_public", true)
         .order("public_sort_order", { ascending: true })
         .order("year", { ascending: false, nullsFirst: false });
       if (error) throw error;
-      return (data ?? []).map((p) => ({
+      return (data ?? []).map((p: Record<string, unknown>) => ({
         ...p,
         gallery: Array.isArray(p.gallery) ? (p.gallery as string[]) : [],
+        clients: p.client_name ? { name: p.client_name as string } : null,
       })) as PublicProject[];
     },
   });
