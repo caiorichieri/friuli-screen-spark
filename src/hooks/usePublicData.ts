@@ -38,7 +38,6 @@ export type PublicProject = {
   external_url: string | null;
   portfolio_category_id: string | null;
   public_summary: string | null;
-  description: string | null;
   public_sort_order: number;
   client_id: string;
   clients: { name: string } | null;
