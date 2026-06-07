@@ -1,5 +1,6 @@
 import { useMemo, useState, useEffect, useCallback } from "react";
 import { usePublicProjects, usePortfolioCategories } from "@/hooks/usePublicData";
+import { safeHref } from "@/lib/safe-url";
 import { ChevronLeft, ChevronRight, X, ExternalLink, ImageIcon } from "lucide-react";
 
 export function Portfolio() {
@@ -215,9 +216,9 @@ export function Portfolio() {
                   </>
                 )}
               </div>
-              {(lightboxProject.public_summary || lightboxProject.description) && (
+              {lightboxProject.public_summary && (
                 <p className="mt-2 max-w-2xl text-sm text-cream/80">
-                  {lightboxProject.public_summary ?? lightboxProject.description}
+                  {lightboxProject.public_summary}
                 </p>
               )}
               {lightboxProject.tags.length > 0 && (
@@ -232,9 +233,9 @@ export function Portfolio() {
                   ))}
                 </div>
               )}
-              {lightboxProject.external_url && (
+              {lightboxProject.external_url && safeHref(lightboxProject.external_url) !== "#" && (
                 <a
-                  href={lightboxProject.external_url}
+                  href={safeHref(lightboxProject.external_url)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-2 inline-flex items-center gap-1 text-sm text-friuli-yellow hover:underline"

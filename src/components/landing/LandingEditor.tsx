@@ -107,6 +107,21 @@ export function LandingEditor({ clientId, clientSlug, clientName, landing }: Pro
 
   const saveMutation = useMutation({
     mutationFn: async () => {
+      // Strip any link with an unsafe URL protocol (javascript:, data:, etc.) before saving
+      const sanitizedLinks = links
+        .map((l) => ({ ...l, url: l.url.trim() }))
+        .filter((l) => {
+          if (!l.url) return false;
+          try {
+            const proto = new URL(l.url, "https://placeholder.invalid").protocol;
+            return ["https:", "http:", "mailto:", "tel:"].includes(proto);
+          } catch {
+            return false;
+          }
+        });
+      if (sanitizedLinks.length !== links.filter((l) => l.url.trim()).length) {
+        toast.warning("Alcuni link sono stati rimossi: usa solo http(s), mailto: o tel:");
+      }
       const payload = {
         client_id: clientId,
         enabled,
@@ -116,7 +131,7 @@ export function LandingEditor({ clientId, clientSlug, clientName, landing }: Pro
         intro_text: introText.trim() || null,
         accent_color: accentColor,
         video_url: videoUrl.trim() || null,
-        links,
+        links: sanitizedLinks,
         gallery,
       };
       if (landing) {
