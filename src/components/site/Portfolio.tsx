@@ -233,9 +233,9 @@ export function Portfolio() {
                   ))}
                 </div>
               )}
-              {lightboxProject.external_url && (
+              {lightboxProject.external_url && safeHref(lightboxProject.external_url) !== "#" && (
                 <a
-                  href={lightboxProject.external_url}
+                  href={safeHref(lightboxProject.external_url)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-2 inline-flex items-center gap-1 text-sm text-friuli-yellow hover:underline"
