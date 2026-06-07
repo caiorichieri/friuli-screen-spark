@@ -203,6 +203,13 @@ export type Database = {
             referencedRelation: "projects"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "payment_schedules_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       portfolio_categories: {
@@ -293,6 +300,13 @@ export type Database = {
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_items_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects_public"
             referencedColumns: ["id"]
           },
         ]
@@ -526,6 +540,46 @@ export type Database = {
           website?: string | null
         }
         Relationships: []
+      }
+      projects_public: {
+        Row: {
+          client_id: string | null
+          client_name: string | null
+          cover_image_url: string | null
+          external_url: string | null
+          gallery: Json | null
+          id: string | null
+          portfolio_category_id: string | null
+          public_sort_order: number | null
+          public_summary: string | null
+          slug: string | null
+          tags: string[] | null
+          title: string | null
+          year: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "projects_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "projects_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "projects_portfolio_category_id_fkey"
+            columns: ["portfolio_category_id"]
+            isOneToOne: false
+            referencedRelation: "portfolio_categories"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Functions: {
