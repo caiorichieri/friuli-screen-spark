@@ -1,5 +1,6 @@
 import { useMemo, useState, useEffect, useCallback } from "react";
 import { usePublicProjects, usePortfolioCategories } from "@/hooks/usePublicData";
+import { safeHref } from "@/lib/safe-url";
 import { ChevronLeft, ChevronRight, X, ExternalLink, ImageIcon } from "lucide-react";
 
 export function Portfolio() {
