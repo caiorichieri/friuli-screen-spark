@@ -59,6 +59,7 @@ export const Route = createRootRoute({
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Friuli On — Online. E nei luoghi che contano." },
       { name: "author", content: "Friuli On" },
+      { name: "description", content: "Agenzia di marketing digitale in Friuli. Siti web, SEO, Google e Meta ADS, grafica e una rete di monitor indoor nel territorio. Siamo dove conta." },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "it_IT" },
       { property: "og:site_name", content: "Friuli On" },
@@ -67,9 +68,13 @@ export const Route = createRootRoute({
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/iME4qutiMvQWTfEWBPjGKRFf98H3/social-images/social-1776447337802-LOGO_FRIULI_ON_MARCHIO.webp" },
       { property: "og:title", content: "Friuli On — Online. E nei luoghi che contano." },
       { name: "twitter:title", content: "Friuli On — Online. E nei luoghi che contano." },
-      { name: "description", content: "Agenzia di marketing digitale in Friuli. Siti web, SEO, Google e Meta ADS, grafica e una rete di monitor indoor nel territorio. Siamo dove conta." },
       { property: "og:description", content: "Agenzia di marketing digitale in Friuli. Siti web, SEO, Google e Meta ADS, grafica e una rete di monitor indoor nel territorio. Siamo dove conta." },
       { name: "twitter:description", content: "Agenzia di marketing digitale in Friuli. Siti web, SEO, Google e Meta ADS, grafica e una rete di monitor indoor nel territorio. Siamo dove conta." },
+      {
+        httpEquiv: "Content-Security-Policy",
+        content: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://storage.googleapis.com; connect-src 'self' https://jgxuweezpxqpihtajnwt.supabase.co; frame-src 'self' https://www.youtube.com https://player.vimeo.com; form-action 'self'; base-uri 'self';",
+      },
+      { httpEquiv: "Referrer-Policy", content: "strict-origin-when-cross-origin" },
     ],
     links: [
       {
