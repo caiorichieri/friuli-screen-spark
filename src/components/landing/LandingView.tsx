@@ -1,4 +1,5 @@
 import { getLandingIcon } from "@/lib/landing-icons";
+import { safeHref } from "@/lib/safe-url";
 import type { LandingWithClient } from "@/hooks/useClientLanding";
 import { Mail } from "lucide-react";
 
@@ -84,12 +85,14 @@ export function LandingView({ landing }: { landing: LandingWithClient }) {
             {landing.links.map((link, idx) => {
               const Icon = getLandingIcon(link.icon);
               const isPrimary = idx < 3;
+              const href = safeHref(link.url);
+              const isExternal = href.startsWith("http");
               return (
                 <a
                   key={link.id}
-                  href={link.url}
-                  target={link.url.startsWith("http") ? "_blank" : undefined}
-                  rel={link.url.startsWith("http") ? "noreferrer" : undefined}
+                  href={href}
+                  target={isExternal ? "_blank" : undefined}
+                  rel={isExternal ? "noreferrer noopener" : undefined}
                   className="flex items-center gap-3 rounded-full border-2 border-ink px-5 py-3 text-sm font-bold transition-all hover:-translate-y-0.5"
                   style={{
                     backgroundColor: isPrimary ? accent : "var(--cream)",
