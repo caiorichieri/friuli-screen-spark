@@ -72,7 +72,7 @@ export const Route = createRootRoute({
       { name: "twitter:description", content: "Agenzia di marketing digitale in Friuli. Siti web, SEO, Google e Meta ADS, grafica e una rete di monitor indoor nel territorio. Siamo dove conta." },
       {
         httpEquiv: "Content-Security-Policy",
-        content: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://storage.googleapis.com; connect-src 'self' https://jgxuweezpxqpihtajnwt.supabase.co; frame-src 'self' https://www.youtube.com https://player.vimeo.com; form-action 'self'; base-uri 'self';",
+        content: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https: ; connect-src 'self' https://jgxuweezpxqpihtajnwt.supabase.co wss://jgxuweezpxqpihtajnwt.supabase.co; frame-src 'self' https://www.youtube.com https://player.vimeo.com; form-action 'self'; base-uri 'self';",
       },
       { httpEquiv: "Referrer-Policy", content: "strict-origin-when-cross-origin" },
     ],
