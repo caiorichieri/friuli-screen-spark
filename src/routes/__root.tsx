@@ -57,6 +57,7 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "google-site-verification", content: "QsAXCcrVUnX0RqiEBDXX2WNkwt1PrCAjHXMtX8_AgFs" },
       { title: "Friuli On — Online. E nei luoghi che contano." },
       { name: "author", content: "Friuli On" },
       { name: "description", content: "Agenzia di marketing digitale in Friuli. Siti web, SEO, Google e Meta ADS, grafica e una rete di monitor indoor nel territorio. Siamo dove conta." },
