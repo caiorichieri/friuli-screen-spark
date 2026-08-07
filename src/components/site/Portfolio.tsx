@@ -71,8 +71,8 @@ export function Portfolio() {
             </h2>
           </div>
           <p className="max-w-md text-lg text-ink/70">
-            Attenzione ai dettagli, comunicazione che parla a tutti, presente in ogni angolo della
-            vita collettiva.
+            Progettiamo e realizziamo loghi, volantini, siti web e campagne per le attività del
+            Friuli Venezia Giulia, dalla prima idea alla messa in onda sui monitor del circuito.
           </p>
         </div>
 
