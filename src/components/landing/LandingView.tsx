@@ -137,7 +137,7 @@ export function LandingView({ landing }: { landing: LandingWithClient }) {
                 >
                   <img
                     src={src}
-                    alt=""
+                    alt={`Galleria ${i + 1} — ${landing.intro_title || landing.client.name}`}
                     loading="lazy"
                     className="h-full w-full object-cover transition-transform hover:scale-105"
                   />
