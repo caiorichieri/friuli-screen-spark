@@ -16,7 +16,7 @@ const SERVIZI = [
 ];
 
 const META_DESCRIPTION =
-  "Servizi di comunicazione locale Friuli On: SEO, grafica, stampa volantini, siti web, applicazioni, Google e Meta ADS e monitor TV indoor in Friuli Venezia Giulia.";
+  "Servizi Friuli On: SEO, grafica, stampa, siti web, app, Google e Meta ADS e monitor TV indoor in Friuli Venezia Giulia.";
 
 const SERVIZI_JSONLD = JSON.stringify({
   "@context": "https://schema.org",
