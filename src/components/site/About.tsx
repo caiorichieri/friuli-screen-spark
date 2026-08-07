@@ -17,10 +17,11 @@ export function About() {
             imprese e comunità in modo diretto, moderno e profondamente territoriale.
           </p>
           <p>
-            Guardiamo oltre il dolce. Una mano che stringe un pirulito può sembrare un gesto quotidiano, ma per noi ogni
-            dettaglio racconta una storia, comunica un'idea, evoca un'emozione. Esploriamo, interpretiamo, creiamo.{" "}
+            Guardiamo oltre il singolo annuncio. Una campagna su monitor indoor, un sito web, una grafica curata: ogni
+            dettaglio racconta una storia, comunica un'idea, evoca un'emozione. Progettiamo, interpretiamo, creiamo.{" "}
             <strong>Insieme.</strong>
           </p>
+
           <div className="grid grid-cols-3 gap-4 pt-6">
             {[
               { k: "Locale", v: "100%" },
