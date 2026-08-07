@@ -21,9 +21,10 @@ export const Route = createFileRoute("/$slug")({
         property: "og:description",
         content: `Tutti i link e le informazioni di ${params.slug} su Friuli On.`,
       },
-      { rel: "canonical", href: `https://friulion.it/${params.slug}` },
     ],
+    links: [{ rel: "canonical", href: `https://friulion.it/${params.slug}` }],
   }),
+
   component: SlugPage,
 });
 

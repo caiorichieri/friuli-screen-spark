@@ -32,6 +32,11 @@ function ChiSiamoPage() {
     <div className="min-h-screen bg-cream text-ink">
       <Navbar />
       <main>
+        <section className="mx-auto max-w-7xl px-6 pt-12 pb-6 md:px-8 md:pt-16 md:pb-10">
+          <p className="font-heading text-xs uppercase tracking-widest text-friuli-blue">Chi siamo</p>
+          <h1 className="mt-3 text-5xl uppercase leading-[0.95] md:text-6xl xl:text-7xl">Comunicazione locale, fatta in Friuli</h1>
+          <p className="mt-6 max-w-[60ch] text-lg leading-relaxed text-ink/80">Friuli On nasce per rendere la pubblicità locale accessibile, efficace e sostenibile, connettendo imprese e comunità del territorio.</p>
+        </section>
         <About />
         <Contact />
       </main>

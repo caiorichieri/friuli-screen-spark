@@ -19,9 +19,11 @@ export const Route = createFileRoute("/clienti")({
         content:
           "Le attività locali del Friuli che hanno scelto la rete di monitor indoor Friuli On.",
       },
-      { rel: "canonical", href: "https://friulion.it/clienti" },
+      { property: "og:url", content: "https://friulion.it/clienti" },
     ],
+    links: [{ rel: "canonical", href: "https://friulion.it/clienti" }],
   }),
+
   component: ClientiPage,
 });
 
