@@ -114,7 +114,7 @@ export function LandingView({ landing }: { landing: LandingWithClient }) {
             <div className="aspect-video overflow-hidden rounded-2xl border-2 border-ink">
               <iframe
                 src={embed}
-                title="Video"
+                title={`Video di presentazione — ${landing.intro_title || landing.client.name}`}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 className="h-full w-full"
