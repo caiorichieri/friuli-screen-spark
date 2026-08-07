@@ -7,7 +7,7 @@ import { usePublicClients } from "@/hooks/usePublicData";
 export const Route = createFileRoute("/clienti")({
   head: () => ({
     meta: [
-      { title: "Clienti — Friuli On | Le attività che hanno scelto la nostra rete" },
+      { title: "Clienti — Friuli On | Attività locali in FVG" },
       {
         name: "description",
         content:
