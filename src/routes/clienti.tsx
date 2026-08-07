@@ -63,11 +63,12 @@ function ClientiPage() {
           ) : clients.length === 0 ? (
             <div className="rounded-3xl border-2 border-dashed border-ink/30 bg-cream p-12 text-center">
               <p className="font-heading text-2xl uppercase">
-                Stiamo caricando i nostri clienti
+                La rete Friuli On cresce ogni mese
               </p>
               <p className="mx-auto mt-3 max-w-md text-sm text-ink/60">
-                Presto qui troverai tutte le attività che hanno scelto Friuli On.
-                Vuoi essere il prossimo?
+                Bar, farmacie, palestre e studi professionali del Friuli Venezia Giulia usano i
+                nostri monitor indoor e i nostri servizi di grafica e web per farsi conoscere sul
+                territorio. Vuoi essere il prossimo?
               </p>
               <Link
                 to="/contatti"
