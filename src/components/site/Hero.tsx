@@ -13,7 +13,7 @@ export function Hero() {
             Novità · Circuito Indoor
           </div>
           <h1 className="mb-8 text-5xl uppercase leading-[0.9] md:text-7xl xl:text-8xl">
-            La tua voce nel <span className="text-friuli-blue">cuore</span> del Friuli.
+            Pubblicità su <span className="text-friuli-blue">monitor TV indoor</span> in Friuli
           </h1>
           <p className="mb-10 max-w-[48ch] text-lg leading-relaxed text-ink/80 md:text-xl">
             Friuli On rende la pubblicità locale accessibile, efficace e sostenibile. Una rete di

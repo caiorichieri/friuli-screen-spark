@@ -71,8 +71,8 @@ export function Portfolio() {
             </h2>
           </div>
           <p className="max-w-md text-lg text-ink/70">
-            Attenzione ai dettagli, comunicazione che parla a tutti, presente in ogni angolo della
-            vita collettiva.
+            Progettiamo e realizziamo loghi, volantini, siti web e campagne per le attività del
+            Friuli Venezia Giulia, dalla prima idea alla messa in onda sui monitor del circuito.
           </p>
         </div>
 
@@ -106,8 +106,11 @@ export function Portfolio() {
         ) : filtered.length === 0 ? (
           <div className="rounded-3xl border-2 border-dashed border-ink/30 p-16 text-center">
             <ImageIcon className="mx-auto h-12 w-12 text-ink/30" />
-            <p className="mt-3 font-heading text-xl uppercase">Presto qui i nostri lavori</p>
-            <p className="mt-2 text-sm text-ink/60">Stiamo preparando il portfolio.</p>
+            <p className="mt-3 font-heading text-xl uppercase">Lavori in arrivo</p>
+            <p className="mx-auto mt-2 max-w-lg text-sm text-ink/60">
+              Realizziamo grafica, stampa, siti web e spot per i monitor indoor delle attività
+              locali del Friuli. Contattaci per vedere esempi concreti del nostro lavoro.
+            </p>
           </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 md:gap-5 md:grid-cols-3 lg:grid-cols-4">
