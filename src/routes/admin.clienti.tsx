@@ -69,17 +69,10 @@ function AdminClientsPage() {
   const [open, setOpen] = useState(false);
   const [assigning, setAssigning] = useState<Client | null>(null);
 
+  const fetchAdminClients = useServerFn(getAdminClients);
   const { data: clients = [], isLoading } = useQuery({
     queryKey: ["admin", "clients"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("clients")
-        .select("*")
-        .order("sort_order", { ascending: true })
-        .order("name", { ascending: true });
-      if (error) throw error;
-      return data as Client[];
-    },
+    queryFn: async () => (await fetchAdminClients()) as unknown as Client[],
   });
 
   const deleteMutation = useMutation({
