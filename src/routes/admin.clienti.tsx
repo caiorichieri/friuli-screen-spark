@@ -570,14 +570,17 @@ function ClientForm({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="description">Note interne</Label>
+        <Label htmlFor="description">Descrizione pubblica</Label>
         <Textarea
           id="description"
           rows={3}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          placeholder="Note opzionali, non visibili sul sito."
+          placeholder="Testo pubblico: può essere letto da chiunque tramite le API del sito."
         />
+        <p className="text-xs text-ink/60">
+          Attenzione: questo campo è pubblico. Non inserire note riservate.
+        </p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
