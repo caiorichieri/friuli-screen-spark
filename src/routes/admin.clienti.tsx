@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { getAdminClients } from "@/lib/admin.functions";
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -69,17 +71,10 @@ function AdminClientsPage() {
   const [open, setOpen] = useState(false);
   const [assigning, setAssigning] = useState<Client | null>(null);
 
+  const fetchAdminClients = useServerFn(getAdminClients);
   const { data: clients = [], isLoading } = useQuery({
     queryKey: ["admin", "clients"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("clients")
-        .select("*")
-        .order("sort_order", { ascending: true })
-        .order("name", { ascending: true });
-      if (error) throw error;
-      return data as Client[];
-    },
+    queryFn: async () => (await fetchAdminClients()) as unknown as Client[],
   });
 
   const deleteMutation = useMutation({
@@ -570,14 +565,17 @@ function ClientForm({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="description">Note interne</Label>
+        <Label htmlFor="description">Descrizione pubblica</Label>
         <Textarea
           id="description"
           rows={3}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          placeholder="Note opzionali, non visibili sul sito."
+          placeholder="Testo pubblico: può essere letto da chiunque tramite le API del sito."
         />
+        <p className="text-xs text-ink/60">
+          Attenzione: questo campo è pubblico. Non inserire note riservate.
+        </p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">

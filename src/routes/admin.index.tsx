@@ -26,9 +26,9 @@ function AdminDashboard() {
     queryKey: ["admin", "stats"],
     queryFn: async () => {
       const [clients, services, projects, paid, due] = await Promise.all([
-        supabase.from("clients").select("*", { count: "exact", head: true }),
-        supabase.from("services").select("*", { count: "exact", head: true }),
-        supabase.from("projects").select("*", { count: "exact", head: true }),
+        supabase.from("clients").select("id", { count: "exact", head: true }),
+        supabase.from("services").select("id", { count: "exact", head: true }),
+        supabase.from("projects").select("id", { count: "exact", head: true }),
         supabase.from("payment_schedules").select("amount").eq("status", "pagato"),
         supabase.from("payment_schedules").select("amount").in("status", ["da_pagare", "in_ritardo"]),
       ]);

@@ -1,5 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
+import { getAdminProject, getAdminProjects } from "@/lib/admin.functions";
 import { toast } from "sonner";
 
 export type ProjectStatus = "richiesto" | "in_corso" | "completato" | "archiviato";
@@ -92,33 +94,27 @@ export const PAYMENT_LABEL: Record<PaymentStatus, string> = {
 
 // ---------- Projects ----------
 export function useProjects(filters?: { status?: ProjectStatus; clientId?: string }) {
+  const fetchProjects = useServerFn(getAdminProjects);
   return useQuery({
     queryKey: ["admin", "projects", filters],
     queryFn: async () => {
-      let q = supabase
-        .from("projects")
-        .select("*, clients(id, name)")
-        .order("created_at", { ascending: false });
-      if (filters?.status) q = q.eq("status", filters.status);
-      if (filters?.clientId) q = q.eq("client_id", filters.clientId);
-      const { data, error } = await q;
-      if (error) throw error;
-      return (data ?? []) as ProjectWithClient[];
+      const data = await fetchProjects({
+        data: { status: filters?.status, clientId: filters?.clientId },
+      });
+      return (data ?? []) as unknown as ProjectWithClient[];
     },
   });
 }
 
 export function useProject(id: string) {
+  const fetchProject = useServerFn(getAdminProject);
   return useQuery({
     queryKey: ["admin", "project", id],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("projects")
-        .select("*, clients(id, name, email)")
-        .eq("id", id)
-        .single();
-      if (error) throw error;
-      return data as Project & { clients: { id: string; name: string; email: string | null } | null };
+      const data = await fetchProject({ data: { id } });
+      return data as unknown as Project & {
+        clients: { id: string; name: string; email: string | null } | null;
+      };
     },
   });
 }
