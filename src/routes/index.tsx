@@ -13,17 +13,17 @@ import { CookieBanner } from "@/components/site/CookieBanner";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Friuli On — Monitor TV indoor in Friuli VG" },
+      { title: "Friuli On — Pubblicità locale e monitor indoor in FVG" },
       {
         name: "description",
         content:
-          "Rete di monitor TV indoor nei luoghi più frequentati del Friuli Venezia Giulia. Pubblicità locale accessibile ed efficace.",
+          "Monitor TV indoor in bar, farmacie e palestre del Friuli, più SEO, Google e Meta ADS, grafica e siti web per aziende locali.",
       },
-      { property: "og:title", content: "Friuli On — Monitor indoor in Friuli VG" },
+      { property: "og:title", content: "Friuli On — Pubblicità locale e monitor indoor in FVG" },
       {
         property: "og:description",
         content:
-          "Monitor TV indoor in bar, farmacie e palestre del Friuli per dare visibilità alle attività locali.",
+          "Monitor TV indoor in bar, farmacie e palestre del Friuli, più SEO, Google e Meta ADS, grafica e siti web per aziende locali.",
       },
       { property: "og:url", content: "https://friulion.it/" },
     ],
