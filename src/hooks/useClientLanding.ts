@@ -43,32 +43,38 @@ function normalize(row: any): ClientLanding {
   };
 }
 
+/** Fetch a public landing by client slug (only enabled landings). */
+export async function fetchPublicLandingBySlug(slug: string): Promise<LandingWithClient | null> {
+  const { data: client, error: clientError } = await supabase
+    .from("clients_public")
+    .select("id, name, slug, logo_url, website")
+    .eq("slug", slug)
+    .maybeSingle();
+  if (clientError) throw clientError;
+  if (!client?.id) return null;
+
+  const { data: landing, error: landingError } = await supabase
+    .from("client_landings")
+    .select("*")
+    .eq("client_id", client.id)
+    .eq("enabled", true)
+    .maybeSingle();
+  if (landingError) throw landingError;
+  if (!landing) return null;
+
+  return { ...normalize(landing), client: client as LandingWithClient["client"] };
+}
+
+export const publicLandingQuery = (slug: string) => ({
+  queryKey: ["landing", "public", slug],
+  queryFn: () => fetchPublicLandingBySlug(slug),
+});
+
 /** Public landing by client slug (only enabled landings). */
 export function usePublicLandingBySlug(slug: string | undefined) {
   return useQuery({
-    queryKey: ["landing", "public", slug],
+    ...publicLandingQuery(slug ?? ""),
     enabled: !!slug,
-    queryFn: async (): Promise<LandingWithClient | null> => {
-      if (!slug) return null;
-      const { data: client, error: clientError } = await supabase
-        .from("clients")
-        .select("id, name, slug, logo_url, website")
-        .eq("slug", slug)
-        .maybeSingle();
-      if (clientError) throw clientError;
-      if (!client) return null;
-
-      const { data: landing, error: landingError } = await supabase
-        .from("client_landings")
-        .select("*")
-        .eq("client_id", client.id)
-        .eq("enabled", true)
-        .maybeSingle();
-      if (landingError) throw landingError;
-      if (!landing) return null;
-
-      return { ...normalize(landing), client };
-    },
   });
 }
 

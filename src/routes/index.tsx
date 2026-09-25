@@ -1,3 +1,4 @@
+import { publicClientsQuery, publicServicesQuery, publicProjectsQuery, portfolioCategoriesQuery } from "@/hooks/usePublicData";
 import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/site/Navbar";
 import { Hero } from "@/components/site/Hero";
@@ -11,6 +12,9 @@ import { Footer } from "@/components/site/Footer";
 import { CookieBanner } from "@/components/site/CookieBanner";
 
 export const Route = createFileRoute("/")({
+  loader: async ({ context }) => {
+    await Promise.allSettled([context.queryClient.ensureQueryData(publicClientsQuery), context.queryClient.ensureQueryData(publicServicesQuery), context.queryClient.ensureQueryData(publicProjectsQuery), context.queryClient.ensureQueryData(portfolioCategoriesQuery)]);
+  },
   head: () => ({
     meta: [
       { title: "Friuli On — Pubblicità locale e monitor indoor in FVG" },

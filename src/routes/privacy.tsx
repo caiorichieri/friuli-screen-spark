@@ -17,7 +17,10 @@ export const Route = createFileRoute("/privacy")({
         property: "og:description",
         content: "Informativa privacy di Friuli On secondo il GDPR.",
       },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://friulion.it/privacy" },
     ],
+    links: [{ rel: "canonical", href: "https://friulion.it/privacy" }],
   }),
   component: PrivacyPage,
 });

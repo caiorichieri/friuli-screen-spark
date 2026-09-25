@@ -17,7 +17,10 @@ export const Route = createFileRoute("/cookies")({
         property: "og:description",
         content: "Cookie utilizzati dal sito Friuli On e modalità di gestione del consenso.",
       },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://friulion.it/cookies" },
     ],
+    links: [{ rel: "canonical", href: "https://friulion.it/cookies" }],
   }),
   component: CookiesPage,
 });

@@ -1,3 +1,4 @@
+import { publicProjectsQuery, portfolioCategoriesQuery } from "@/hooks/usePublicData";
 import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/site/Navbar";
 import { Portfolio } from "@/components/site/Portfolio";
@@ -6,6 +7,9 @@ import { Footer } from "@/components/site/Footer";
 import { CookieBanner } from "@/components/site/CookieBanner";
 
 export const Route = createFileRoute("/portfolio")({
+  loader: async ({ context }) => {
+    await Promise.allSettled([context.queryClient.ensureQueryData(publicProjectsQuery), context.queryClient.ensureQueryData(portfolioCategoriesQuery)]);
+  },
   head: () => ({
     meta: [
       { title: "Portfolio — Progetti e campagne | Friuli On" },

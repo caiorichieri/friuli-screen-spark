@@ -1,3 +1,4 @@
+import { publicClientsQuery } from "@/hooks/usePublicData";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
@@ -5,6 +6,9 @@ import { CookieBanner } from "@/components/site/CookieBanner";
 import { usePublicClients } from "@/hooks/usePublicData";
 
 export const Route = createFileRoute("/clienti")({
+  loader: async ({ context }) => {
+    await Promise.allSettled([context.queryClient.ensureQueryData(publicClientsQuery)]);
+  },
   head: () => ({
     meta: [
       { title: "Clienti — Friuli On | Attività locali in FVG" },
