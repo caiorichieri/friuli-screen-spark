@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import heroBar from "@/assets/hero-bar.jpg";
+import heroBar from "@/assets/hero-bar.webp";
 
 export function Hero() {
   return (

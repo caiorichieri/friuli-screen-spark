@@ -1,6 +1,6 @@
-import locBar from "@/assets/loc-bar.jpg";
-import locPharmacy from "@/assets/loc-pharmacy.jpg";
-import locGym from "@/assets/loc-gym.jpg";
+import locBar from "@/assets/loc-bar.webp";
+import locPharmacy from "@/assets/loc-pharmacy.webp";
+import locGym from "@/assets/loc-gym.webp";
 
 const CITIES = [
   "Codroipo",

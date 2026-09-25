@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import logo from "@/assets/logo-friuli-on-text.png";
+import logo from "@/assets/logo-friuli-on-text.webp";
 
 export function Footer() {
   return (

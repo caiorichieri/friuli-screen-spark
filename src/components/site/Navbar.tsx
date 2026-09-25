@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import logo from "@/assets/logo-friuli-on.png";
+import logo from "@/assets/logo-friuli-on.webp";
 
 const NAV_ITEMS = [
   { to: "/circuito", label: "Il Circuito" },
