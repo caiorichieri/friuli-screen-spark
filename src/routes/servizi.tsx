@@ -1,3 +1,4 @@
+import { publicServicesQuery } from "@/hooks/usePublicData";
 import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/site/Navbar";
 import { Services } from "@/components/site/Services";
@@ -36,6 +37,9 @@ const SERVIZI_JSONLD = JSON.stringify({
 });
 
 export const Route = createFileRoute("/servizi")({
+  loader: async ({ context }) => {
+    await Promise.allSettled([context.queryClient.ensureQueryData(publicServicesQuery)]);
+  },
   head: () => ({
     meta: [
       { title: "Servizi — SEO, Grafica, Volantini, Siti e App | Friuli On" },
