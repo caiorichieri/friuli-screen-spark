@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, queryOptions } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
 export type PublicClient = {
@@ -44,7 +44,10 @@ export type PublicProject = {
 };
 
 export function usePublicClients() {
-  return useQuery({
+  return useQuery(publicClientsQuery);
+}
+
+export const publicClientsQuery = queryOptions({
     queryKey: ["clients", "public"],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -55,11 +58,13 @@ export function usePublicClients() {
       if (error) throw error;
       return (data ?? []) as PublicClient[];
     },
-  });
-}
+});
 
 export function usePublicServices() {
-  return useQuery({
+  return useQuery(publicServicesQuery);
+}
+
+export const publicServicesQuery = queryOptions({
     queryKey: ["services", "public"],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -70,11 +75,13 @@ export function usePublicServices() {
       if (error) throw error;
       return (data ?? []) as PublicService[];
     },
-  });
-}
+});
 
 export function usePortfolioCategories() {
-  return useQuery({
+  return useQuery(portfolioCategoriesQuery);
+}
+
+export const portfolioCategoriesQuery = queryOptions({
     queryKey: ["portfolio-categories", "public"],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -84,11 +91,13 @@ export function usePortfolioCategories() {
       if (error) throw error;
       return (data ?? []) as PortfolioCategory[];
     },
-  });
-}
+});
 
 export function usePublicProjects() {
-  return useQuery({
+  return useQuery(publicProjectsQuery);
+}
+
+export const publicProjectsQuery = queryOptions({
     queryKey: ["projects", "public"],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -105,5 +114,4 @@ export function usePublicProjects() {
         clients: p.client_name ? { name: p.client_name as string } : null,
       })) as PublicProject[];
     },
-  });
-}
+});
