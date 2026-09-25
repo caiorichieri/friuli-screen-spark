@@ -1,3 +1,4 @@
+import { optimizedImage } from "@/lib/image";
 import { publicClientsQuery } from "@/hooks/usePublicData";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Navbar } from "@/components/site/Navbar";
@@ -93,8 +94,8 @@ function ClientiPage() {
                     <div className="flex h-24 w-full items-center justify-center md:h-28">
                       {client.logo_url ? (
                         <img
-                          src={client.logo_url}
-                          alt={client.name}
+                          src={optimizedImage(client.logo_url, 320)}
+                          alt={`Logo ${client.name}`}
                           loading="lazy"
                           className="max-h-full max-w-full object-contain"
                         />

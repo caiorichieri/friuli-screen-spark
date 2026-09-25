@@ -1,3 +1,4 @@
+import { optimizedImage } from "@/lib/image";
 import { useMemo, useState, useEffect, useCallback } from "react";
 import { usePublicProjects, usePortfolioCategories } from "@/hooks/usePublicData";
 import { safeHref } from "@/lib/safe-url";
@@ -127,8 +128,8 @@ export function Portfolio() {
                 >
                   {cover && (
                     <img
-                      src={cover}
-                      alt={p.title}
+                      src={optimizedImage(cover, 640)}
+                      alt={`Progetto "${p.title}" realizzato da Friuli On`}
                       loading="lazy"
                       className="absolute inset-0 h-full w-full object-cover"
                     />
@@ -264,7 +265,7 @@ export function Portfolio() {
           >
             {lightboxImages.length > 0 ? (
               <img
-                src={lightboxImages[lightbox.index]}
+                src={optimizedImage(lightboxImages[lightbox.index], 1400, 80)}
                 alt={`${lightboxProject.title} ${lightbox.index + 1}`}
                 className="max-h-[80vh] max-w-full rounded-2xl object-contain"
               />

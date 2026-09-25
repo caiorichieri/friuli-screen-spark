@@ -21,13 +21,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Monitor TV indoor in bar, farmacie e palestre del Friuli, più SEO, Google e Meta ADS, grafica e siti web per aziende locali.",
+          "Monitor TV indoor in bar, farmacie e palestre del Friuli, più SEO, ADS, grafica e siti web. Richiedi un preventivo gratuito.",
       },
       { property: "og:title", content: "Friuli On — Pubblicità locale e monitor indoor in FVG" },
       {
         property: "og:description",
         content:
-          "Monitor TV indoor in bar, farmacie e palestre del Friuli, più SEO, Google e Meta ADS, grafica e siti web per aziende locali.",
+          "Monitor TV indoor in bar, farmacie e palestre del Friuli, più SEO, ADS, grafica e siti web. Richiedi un preventivo gratuito.",
       },
       { property: "og:url", content: "https://friulion.it/" },
     ],
