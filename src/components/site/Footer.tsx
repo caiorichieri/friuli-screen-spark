@@ -23,9 +23,9 @@ export function Footer() {
 
           {/* Naviga */}
           <div className="md:col-span-2">
-            <h3 className="font-heading text-sm uppercase tracking-widest text-friuli-yellow">
+            <p className="font-heading text-sm uppercase tracking-widest text-friuli-yellow">
               Naviga
-            </h3>
+            </p>
             <ul className="mt-4 space-y-2 text-sm">
               <li><Link to="/" className="text-cream/80 hover:text-friuli-yellow">Home</Link></li>
               <li><Link to="/circuito" className="text-cream/80 hover:text-friuli-yellow">Il Circuito</Link></li>
@@ -39,9 +39,9 @@ export function Footer() {
 
           {/* Contatti */}
           <div className="md:col-span-3">
-            <h3 className="font-heading text-sm uppercase tracking-widest text-friuli-yellow">
+            <p className="font-heading text-sm uppercase tracking-widest text-friuli-yellow">
               Contatti
-            </h3>
+            </p>
             <ul className="mt-4 space-y-2 text-sm">
               <li>
                 <a
@@ -74,9 +74,9 @@ export function Footer() {
 
           {/* Sede + Legale */}
           <div className="md:col-span-3">
-            <h3 className="font-heading text-sm uppercase tracking-widest text-friuli-yellow">
+            <p className="font-heading text-sm uppercase tracking-widest text-friuli-yellow">
               Sede
-            </h3>
+            </p>
             <address className="mt-4 not-italic text-sm leading-relaxed text-cream/80">
               Friuli On<br />
               Via Circonvallazione Sud, 80<br />

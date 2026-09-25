@@ -1,3 +1,4 @@
+import { optimizedImage } from "@/lib/image";
 import { Link } from "@tanstack/react-router";
 import { usePublicClients } from "@/hooks/usePublicData";
 
@@ -60,7 +61,7 @@ export function ClientsMarquee() {
             {loop.map((client, idx) => {
               const inner = client.logo_url ? (
                 <img
-                  src={client.logo_url}
+                  src={optimizedImage(client.logo_url, 320)}
                   alt={client.name}
                   loading="lazy"
                   className="h-16 w-auto max-w-[200px] object-contain opacity-80 transition-opacity hover:opacity-100 md:h-20 md:max-w-[240px]"
