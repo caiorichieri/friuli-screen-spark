@@ -12,18 +12,20 @@ const queryClient = new QueryClient({
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
+      <title>Pagina non trovata — Friuli On</title>
+      <meta name="robots" content="noindex" />
       <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
+        <p className="text-7xl font-bold text-foreground">404</p>
+        <h1 className="mt-4 text-xl font-semibold text-foreground">Pagina non trovata</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
+          La pagina che cerchi non esiste o è stata spostata.
         </p>
         <div className="mt-6">
           <Link
             to="/"
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Go home
+            Torna alla home
           </Link>
         </div>
       </div>
@@ -33,13 +35,17 @@ function NotFoundComponent() {
 
 const LOCAL_BUSINESS_JSONLD = JSON.stringify({
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
+  "@type": ["LocalBusiness", "AdvertisingAgency"],
+  "@id": "https://friulion.it/#business",
   name: "Friuli On",
   description:
     "Pubblicità locale, monitor TV indoor e comunicazione integrata in Friuli Venezia Giulia.",
   url: "https://friulion.it",
+  logo: "https://storage.googleapis.com/gpt-engineer-file-uploads/iME4qutiMvQWTfEWBPjGKRFf98H3/social-images/social-1776447337802-LOGO_FRIULI_ON_MARCHIO.webp",
+  image: "https://storage.googleapis.com/gpt-engineer-file-uploads/iME4qutiMvQWTfEWBPjGKRFf98H3/social-images/social-1776447337802-LOGO_FRIULI_ON_MARCHIO.webp",
   telephone: "+39 351 8230667",
   email: "info@friulion.it",
+  priceRange: "€€",
   address: {
     "@type": "PostalAddress",
     streetAddress: "Via Circonvallazione Sud, 80",
@@ -48,8 +54,36 @@ const LOCAL_BUSINESS_JSONLD = JSON.stringify({
     addressRegion: "UD",
     addressCountry: "IT",
   },
+  geo: { "@type": "GeoCoordinates", latitude: 45.9603, longitude: 12.9776 },
   vatID: "IT03157410303",
-  areaServed: "Friuli Venezia Giulia",
+  areaServed: [
+    { "@type": "AdministrativeArea", name: "Friuli Venezia Giulia" },
+    { "@type": "City", name: "Codroipo" },
+    { "@type": "City", name: "Udine" },
+    { "@type": "City", name: "Lignano Sabbiadoro" },
+    { "@type": "City", name: "Pordenone" },
+  ],
+  knowsAbout: [
+    "Monitor TV indoor",
+    "Pubblicità locale",
+    "SEO",
+    "Google Ads",
+    "Meta Ads",
+    "Grafica",
+    "Siti web",
+  ],
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Servizi Friuli On",
+    itemListElement: [
+      "Circuito monitor TV indoor",
+      "SEO e posizionamento su Google",
+      "Campagne Google Ads",
+      "Campagne Meta Ads",
+      "Grafica e branding",
+      "Realizzazione siti web",
+    ].map((name) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name } })),
+  },
 });
 
 export const Route = createRootRoute({
